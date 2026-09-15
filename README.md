@@ -14,11 +14,11 @@ Pantalla web para visualizar detecciones acústicas de aves y otros animales a p
 ## Estructura
 
 ```text
-app/                          Aplicación web estática y assets visuales
-config/cameras.example.yaml  Plantilla de configuración de cámaras
+app/                            Aplicación web estática y assets visuales
+config/devices.example.yaml    Plantilla unificada de cámaras y dispositivos
 config/birdnet-go.example.yaml Referencia para el stream RTSP
-docker-compose.yml            Servidor web/proxy para la pantalla
-nginx.conf.template           Proxy de la API de BirdNET-Go
+docker-compose.yml              Servidor web/proxy para la pantalla
+nginx.conf.template             Proxy de la API de BirdNET-Go
 ```
 
 ## Configurar una cámara
@@ -26,14 +26,16 @@ nginx.conf.template           Proxy de la API de BirdNET-Go
 Copiar los ejemplos y completar los valores únicamente en el servidor:
 
 ```bash
-cp config/cameras.example.yaml config/cameras.yaml
+cp config/devices.example.yaml config/devices.yaml
 cp config/birdnet-go.example.yaml config/birdnet-go.yaml
-chmod 600 config/cameras.yaml config/birdnet-go.yaml
+chmod 600 config/devices.yaml config/birdnet-go.yaml
 ```
 
-En `config/cameras.yaml` se documentan la dirección, el puerto y el path RTSP. Las credenciales deben permanecer solo en el archivo local ignorado por Git. Para BirdNET-Go, usar ese stream en la configuración del contenedor y conservar `mediaMode: audio-only` cuando solo se necesita el micrófono.
+En `config/devices.yaml` cada fuente tiene un identificador estable (`CAM142`, `POR001`, `MIC001`), tipo, número, dirección IP, protocolo, credenciales, parámetros de audio y ubicación. Las credenciales y las coordenadas reales deben permanecer solo en el archivo local ignorado por Git. Para BirdNET-Go, usar el stream correspondiente y conservar `mediaMode: audio-only` cuando solo se necesita el micrófono.
 
 El path habitual para estas cámaras es `/onvif1`, pero debe verificarse con el modelo instalado.
+
+Los campos `id`, `type`, `number`, `province` y `country` permiten agregar posteriormente filtros por dispositivo, tipo de fuente o provincia sin cambiar el formato de las detecciones. La aplicación web actual está enfocada en una fuente; el filtrado multi-dispositivo será la siguiente capa.
 
 ## Ejecutar la pantalla
 

@@ -1,6 +1,7 @@
 // Configuración pública de la interfaz. No poner credenciales aquí.
 window.AVIAN_CONFIG = {
-  cameraLabel: 'Exterior 142',
+  cameraLabel: 'Exterior CAM142 Cordoba - Argentina',
+  description: 'Una composición viva a partir de sonidos que escuchan dispositivos de seguridad',
   apiPrefix: '/birdnet',
   recentWindowMinutes: 30,
   refreshMinutes: 5,

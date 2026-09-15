@@ -1,0 +1,57 @@
+# Archivo canónico de fuentes de audio del proyecto.
+# Copiar como devices.yaml y completar únicamente en el servidor.
+# devices.yaml está excluido por .gitignore.
+version: 1
+
+devices:
+  - id: CAM142
+    type: CAM                         # CAM, POR o MIC
+    number: "142"                     # secuencial o derivado del último octeto
+    name: Exterior CAM142 Cordoba - Argentina
+
+    network:
+      ip: 192.0.2.10
+      protocol: rtsp
+      port: 554
+      path: /onvif1
+      transport: tcp
+
+    credentials:
+      username: REPLACE_ME
+      password: REPLACE_ME
+
+    audio:
+      media_mode: audio-only
+      channel_mode: downmix
+
+    location:
+      latitude: null
+      longitude: null
+      precision: property              # property, area o approximate
+      province: Córdoba
+      country: Argentina
+
+  # Ejemplo para un dispositivo distinto:
+  # - id: MIC001
+  #   type: MIC
+  #   number: "001"
+  #   name: Micrófono de alta calidad 001
+  #   network:
+  #     ip: 192.0.2.20
+  #     protocol: rtsp
+  #     port: 554
+  #     path: /audio
+  #     transport: tcp
+  #   credentials:
+  #     username: REPLACE_ME
+  #     password: REPLACE_ME
+  #   audio:
+  #     media_mode: audio-only
+  #     channel_mode: downmix
+  #   location:
+  #     latitude: null
+  #     longitude: null
+  #     precision: area
+  #     province: Córdoba
+  #     country: Argentina
+

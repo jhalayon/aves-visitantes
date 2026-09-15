@@ -136,5 +136,6 @@ async function load() {
 }
 
 document.querySelector('.eyebrow').textContent = `MONITOREO ACÚSTICO · ${CONFIG.cameraLabel || 'CÁMARA'}`;
+if (CONFIG.description) document.querySelector('.subtitle').textContent = CONFIG.description;
 load();
 setInterval(load, REFRESH_MS);
