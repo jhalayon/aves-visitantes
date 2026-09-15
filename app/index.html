@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#173b3f" />
+    <title>Visitantes del campo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">MONITOREO ACÚSTICO · EXTERIOR 142</p>
+          <h1>Visitantes del campo</h1>
+          <p class="subtitle">Una composición viva a partir de los sonidos que escucha la cámara.</p>
+        </div>
+        <div class="status-pill" id="status-pill">
+          <span class="status-dot"></span>
+          <span id="status-text">Conectando…</span>
+        </div>
+      </header>
+
+      <section class="collage-section" aria-labelledby="birds-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker" id="activity-kicker">Última actividad</p>
+            <h2 id="birds-title">Aves escuchadas</h2>
+          </div>
+          <p class="window-note" id="window-note">—</p>
+        </div>
+        <div class="collage" id="bird-collage" aria-live="polite"></div>
+      </section>
+
+      <section class="animals-section" aria-labelledby="animals-title">
+        <div class="separator" aria-hidden="true"></div>
+        <div class="section-heading animal-heading">
+          <div>
+            <p class="section-kicker">Fauna del entorno</p>
+            <h2 id="animals-title">Otros visitantes</h2>
+          </div>
+          <p class="window-note" id="animal-note">Cuando haya detecciones</p>
+        </div>
+        <div class="animal-row" id="animal-row" aria-live="polite"></div>
+      </section>
+
+      <footer class="footer">
+        <span id="last-updated">Esperando la primera actualización</span>
+        <span>·</span>
+        <span>Actualización automática cada 5 min</span>
+      </footer>
+    </main>
+
+    <script src="/config.js"></script>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

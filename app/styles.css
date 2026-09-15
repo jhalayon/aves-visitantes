@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap');
+
+:root {
+  --ink: #173b3f;
+  --ink-soft: #406365;
+  --paper: #f4f0e7;
+  --paper-deep: #e8e0d2;
+  --line: rgba(23, 59, 63, .24);
+  --accent: #d27a4d;
+  --green: #849c72;
+  --shadow: 0 18px 38px rgba(36, 57, 49, .12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 12%, rgba(210, 122, 77, .13), transparent 24rem),
+    radial-gradient(circle at 84% 76%, rgba(132, 156, 114, .15), transparent 25rem),
+    var(--paper);
+  font-family: 'DM Mono', ui-monospace, monospace;
+}
+
+.page-shell { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 46px 0 28px; }
+.masthead { display: flex; justify-content: space-between; gap: 32px; align-items: flex-start; margin-bottom: 42px; }
+.eyebrow, .section-kicker { letter-spacing: .13em; font-size: 11px; font-weight: 500; color: var(--accent); margin: 0 0 12px; }
+h1, h2 { font-family: Fraunces, Georgia, serif; font-weight: 650; letter-spacing: -.035em; margin: 0; }
+h1 { font-size: clamp(42px, 7vw, 78px); line-height: .95; }
+h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1; }
+.subtitle { color: var(--ink-soft); max-width: 560px; line-height: 1.6; margin: 18px 0 0; font-size: 13px; }
+.status-pill { display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 99px; padding: 10px 14px; color: var(--ink-soft); font-size: 11px; white-space: nowrap; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(132, 156, 114, .17); }
+.status-pill.error .status-dot { background: #b85845; box-shadow: 0 0 0 4px rgba(184, 88, 69, .13); }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+.window-note { color: var(--ink-soft); font-size: 11px; margin: 0 0 3px; text-align: right; }
+.collage { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; min-height: 310px; align-items: stretch; }
+.species-card { position: relative; min-height: 270px; grid-column: span 3; overflow: hidden; border-radius: 5px; background: var(--paper-deep); box-shadow: var(--shadow); transform: rotate(var(--tilt)); transition: transform .3s ease; }
+.species-card:hover { transform: rotate(0deg) translateY(-5px); }
+.species-card:nth-child(1) { grid-column: span 4; min-height: 330px; }
+.species-card:nth-child(2) { grid-column: span 3; }
+.species-card:nth-child(3) { grid-column: span 3; min-height: 300px; }
+.species-card:nth-child(4) { grid-column: span 2; }
+.species-card img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.82) contrast(.96); }
+.species-card .wash { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 43%, rgba(12, 39, 39, .8)); }
+.species-card .card-copy { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px; color: #f9f5eb; }
+.common-name { font: 650 24px/1 Fraunces, Georgia, serif; max-width: 95%; }
+.scientific-name { font-size: 10px; opacity: .82; font-style: italic; margin-top: 6px; }
+.confidence { position: absolute; top: 13px; right: 13px; padding: 6px 8px; border-radius: 99px; background: rgba(244, 240, 231, .88); color: var(--ink); font-size: 10px; }
+.count-badge { position: absolute; top: 13px; left: 13px; padding: 6px 8px; border-radius: 99px; background: rgba(23, 59, 63, .86); color: #f9f5eb; font-size: 10px; }
+.empty-state { grid-column: 1 / -1; border: 1px dashed var(--line); border-radius: 5px; min-height: 250px; display: grid; place-items: center; text-align: center; color: var(--ink-soft); padding: 30px; line-height: 1.6; }
+.separator { border-top: 1px solid var(--ink); opacity: .56; margin: 48px 0 28px; }
+.animal-heading { margin-bottom: 18px; }
+.animal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; min-height: 122px; }
+.animal-card { position: relative; display: flex; align-items: center; min-height: 124px; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; background: rgba(232, 224, 210, .64); padding: 12px 15px 12px 0; }
+.animal-card img { align-self: flex-end; width: 52%; max-height: 138px; object-fit: contain; object-position: left bottom; margin-left: -4px; }
+.animal-copy { z-index: 1; margin-left: -2px; }
+.animal-name { font: 650 25px/1 Fraunces, Georgia, serif; }
+.animal-meta { margin-top: 8px; font-size: 10px; color: var(--ink-soft); }
+.animal-empty { grid-column: 1 / -1; color: var(--ink-soft); font-size: 11px; padding: 4px 0; }
+.footer { display: flex; justify-content: center; gap: 10px; color: var(--ink-soft); font-size: 10px; margin-top: 48px; opacity: .8; }
+
+@media (max-width: 800px) {
+  .page-shell { width: min(100% - 28px, 620px); padding-top: 28px; }
+  .masthead { display: block; margin-bottom: 32px; }
+  .status-pill { display: inline-flex; margin-top: 22px; }
+  .collage { grid-template-columns: repeat(2, 1fr); }
+  .species-card, .species-card:nth-child(n) { grid-column: span 1; min-height: 230px; }
+  .species-card:nth-child(1) { min-height: 280px; }
+  .animal-row { grid-template-columns: repeat(2, 1fr); }
+  .footer { flex-wrap: wrap; text-align: center; }
+}
+
+@media (max-width: 460px) {
+  .section-heading { display: block; }
+  .window-note { text-align: left; margin-top: 10px; }
+  .animal-row { grid-template-columns: 1fr; }
+}

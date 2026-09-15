@@ -1,0 +1,15 @@
+# Referencia mínima para el stream RTSP. No guardar credenciales reales aquí.
+realtime:
+  rtsp:
+    streams:
+      - name: Exterior 142
+        url: rtsp://USERNAME:PASSWORD@CAMERA_IP:554/onvif1
+        enabled: true
+        type: rtsp
+        transport: tcp
+        channelMode: downmix
+        mediaMode: audio-only
+        gain: 0
+        models:
+          - birdnet
+

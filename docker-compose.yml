@@ -1,0 +1,16 @@
+services:
+  avian-display:
+    image: nginx:alpine
+    container_name: avian-display
+    restart: unless-stopped
+    ports:
+      - "${DISPLAY_PORT:-8091}:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BIRDNET_HOST: "${BIRDNET_HOST:-host.docker.internal}"
+      BIRDNET_PORT: "${BIRDNET_PORT:-8090}"
+    volumes:
+      - ./app:/usr/share/nginx/html:ro
+      - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+

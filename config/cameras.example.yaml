@@ -1,0 +1,26 @@
+# Copiar este archivo como cameras.yaml y editarlo solo en el servidor.
+# cameras.yaml está excluido por .gitignore para evitar publicar secretos.
+cameras:
+  - id: exterior-142
+    name: Exterior 142
+    host: 192.0.2.10
+    protocol: rtsp
+    port: 554
+    path: /onvif1
+    transport: tcp
+    username: REPLACE_ME
+    password: REPLACE_ME
+    audio_only: true
+
+  # Agregar otra cámara siguiendo el mismo formato.
+  # - id: exterior-148
+  #   name: Exterior 148
+  #   host: 192.0.2.11
+  #   protocol: rtsp
+  #   port: 554
+  #   path: /onvif1
+  #   transport: tcp
+  #   username: REPLACE_ME
+  #   password: REPLACE_ME
+  #   audio_only: true
+

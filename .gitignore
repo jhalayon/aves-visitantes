@@ -1,0 +1,18 @@
+# Runtime configuration and generated data
+.env
+runtime/
+config/cameras.yaml
+config/birdnet-go.yaml
+
+# Local credentials and keys
+*.pem
+*.key
+*.crt
+.jha_id*
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
