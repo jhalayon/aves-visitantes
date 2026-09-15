@@ -47,6 +47,11 @@ function imageUrl(record) {
   return `${API}/media/image/${encodeURIComponent(record.scientificName || record.commonName || '')}`;
 }
 
+function displayCommonName(record) {
+  const original = record.commonName || 'Ave detectada';
+  return CONFIG.commonNameTranslations?.[original] || original;
+}
+
 function renderBirds(records) {
   const collage = $('bird-collage');
   const birds = grouped(records.filter((record) => !animalKind(record))).slice(0, MAX_BIRDS);
@@ -60,13 +65,14 @@ function renderBirds(records) {
     card.className = 'species-card';
     card.style.setProperty('--tilt', `${[-1.2, 1.1, -0.6, 1.6, -1, .8, -1.5, .5][index] || 0}deg`);
     const confidence = Math.round((bird.confidence || 0) * 100);
+    const displayName = displayCommonName(bird);
     card.innerHTML = `
-      <img src="${imageUrl(bird)}" alt="${bird.commonName || bird.scientificName || 'Ave detectada'}" />
+      <img src="${imageUrl(bird)}" alt="${displayName}" />
       <div class="wash"></div>
       ${bird.count > 1 ? `<span class="count-badge">${bird.count} detecciones</span>` : ''}
       ${confidence ? `<span class="confidence">${confidence}%</span>` : ''}
       <div class="card-copy">
-        <div class="common-name">${bird.commonName || 'Ave detectada'}</div>
+        <div class="common-name">${displayName}</div>
         <div class="scientific-name">${bird.scientificName || ''}</div>
       </div>`;
     card.querySelector('img').addEventListener('error', (event) => {
