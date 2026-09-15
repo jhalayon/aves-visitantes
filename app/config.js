@@ -14,5 +14,6 @@ window.AVIAN_CONFIG = {
     "Yellow-billed Cuckoo": "Cuco de pico amarillo",
     "Northern Saw-whet Owl": "Mochuelo norteño",
     "Swainson's Flycatcher": "Burlisto pico canela",
+    "Green-barred Woodpecker": "Carpintero real",
   },
 };
