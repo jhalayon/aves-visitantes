@@ -9,6 +9,7 @@ Pantalla web para visualizar detecciones acústicas de aves y otros animales a p
 - Si no hay actividad reciente, conserva las últimas detecciones conocidas para evitar una pantalla vacía.
 - Muestra las aves en un collage y los animales del entorno en una sección inferior separada por una línea.
 - Traduce los nombres comunes desde `app/config.js`, sin modificar el modelo acústico.
+- Permite abrir la información de cada especie en Wikipedia en castellano desde la tarjeta del collage.
 - No incluye credenciales ni datos específicos de la instalación.
 
 ## Estructura
@@ -53,6 +54,8 @@ Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo ex
 ## Nombres comunes
 
 Las traducciones de los nombres de aves están en `app/config.js`, dentro de `commonNameTranslations`. Si BirdNET-Go devuelve una especie que todavía no está en el diccionario, la interfaz conserva temporalmente el nombre recibido por la API para no ocultar la detección.
+
+Cada tarjeta utiliza el nombre científico como consulta en Wikipedia en castellano y abre el resultado en otra pestaña. Esto evita depender de que todas las especies tengan exactamente el mismo nombre común traducido.
 
 ## Publicar en GitHub
 

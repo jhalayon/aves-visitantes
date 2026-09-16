@@ -52,6 +52,11 @@ function displayCommonName(record) {
   return CONFIG.commonNameTranslations?.[original] || original;
 }
 
+function infoUrl(record) {
+  const query = record.scientificName || displayCommonName(record);
+  return `https://es.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`;
+}
+
 function renderBirds(records) {
   const collage = $('bird-collage');
   const birds = grouped(records.filter((record) => !animalKind(record))).slice(0, MAX_BIRDS);
@@ -61,8 +66,12 @@ function renderBirds(records) {
     return;
   }
   birds.forEach((bird, index) => {
-    const card = document.createElement('article');
+    const card = document.createElement('a');
     card.className = 'species-card';
+    card.href = infoUrl(bird);
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    card.title = `Más información sobre ${displayCommonName(bird)}`;
     card.style.setProperty('--tilt', `${[-1.2, 1.1, -0.6, 1.6, -1, .8, -1.5, .5][index] || 0}deg`);
     const confidence = Math.round((bird.confidence || 0) * 100);
     const displayName = displayCommonName(bird);
@@ -71,6 +80,7 @@ function renderBirds(records) {
       <div class="wash"></div>
       ${bird.count > 1 ? `<span class="count-badge">${bird.count} detecciones</span>` : ''}
       ${confidence ? `<span class="confidence">${confidence}%</span>` : ''}
+      <span class="info-hint">Más información ↗</span>
       <div class="card-copy">
         <div class="common-name">${displayName}</div>
         <div class="scientific-name">${bird.scientificName || ''}</div>

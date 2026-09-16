@@ -36,7 +36,7 @@ h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
 .window-note { color: var(--ink-soft); font-size: 11px; margin: 0 0 3px; text-align: right; }
 .collage { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; min-height: 310px; align-items: stretch; }
-.species-card { position: relative; min-height: 270px; grid-column: span 3; overflow: hidden; border-radius: 5px; background: var(--paper-deep); box-shadow: var(--shadow); transform: rotate(var(--tilt)); transition: transform .3s ease; }
+.species-card { position: relative; min-height: 270px; grid-column: span 3; overflow: hidden; border-radius: 5px; background: var(--paper-deep); box-shadow: var(--shadow); transform: rotate(var(--tilt)); transition: transform .3s ease; color: inherit; text-decoration: none; cursor: pointer; }
 .species-card:hover { transform: rotate(0deg) translateY(-5px); }
 .species-card:nth-child(1) { grid-column: span 4; min-height: 330px; }
 .species-card:nth-child(2) { grid-column: span 3; }
@@ -49,6 +49,9 @@ h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1; }
 .scientific-name { font-size: 10px; opacity: .82; font-style: italic; margin-top: 6px; }
 .confidence { position: absolute; top: 13px; right: 13px; padding: 6px 8px; border-radius: 99px; background: rgba(244, 240, 231, .88); color: var(--ink); font-size: 10px; }
 .count-badge { position: absolute; top: 13px; left: 13px; padding: 6px 8px; border-radius: 99px; background: rgba(23, 59, 63, .86); color: #f9f5eb; font-size: 10px; }
+.info-hint { position: absolute; right: 15px; bottom: 15px; z-index: 2; color: rgba(249, 245, 235, .78); font-size: 9px; opacity: 0; transform: translateY(4px); transition: opacity .2s ease, transform .2s ease; }
+.species-card:hover .info-hint, .species-card:focus-visible .info-hint { opacity: 1; transform: translateY(0); }
+.species-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; transform: rotate(0deg); }
 .empty-state { grid-column: 1 / -1; border: 1px dashed var(--line); border-radius: 5px; min-height: 250px; display: grid; place-items: center; text-align: center; color: var(--ink-soft); padding: 30px; line-height: 1.6; }
 .separator { border-top: 1px solid var(--ink); opacity: .56; margin: 48px 0 28px; }
 .animal-heading { margin-bottom: 18px; }
