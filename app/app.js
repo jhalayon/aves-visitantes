@@ -48,8 +48,7 @@ function imageUrl(record) {
 }
 
 function displayCommonName(record) {
-  const original = record.commonName || 'Ave detectada';
-  return CONFIG.commonNameTranslations?.[original] || original;
+  return window.AVIAN_NAMES?.resolve(record) || record.commonName || 'Ave detectada';
 }
 
 function infoUrl(record) {
@@ -124,6 +123,7 @@ function formatAge(timestamp) {
 
 async function load() {
   try {
+    await (window.AVIAN_NAMES?.ready || Promise.resolve());
     const response = await fetch(`${API}/detections/recent`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const detections = (await response.json()).sort((a, b) => parsedTime(b) - parsedTime(a));

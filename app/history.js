@@ -2,8 +2,7 @@ const CONFIG = window.AVIAN_CONFIG || {};
 const API = CONFIG.apiPrefix || '/birdnet';
 
 function displayCommonName(record) {
-  const original = record.common_name || 'Ave detectada';
-  return CONFIG.commonNameTranslations?.[original] || original;
+  return window.AVIAN_NAMES?.resolve(record) || record.common_name || 'Ave detectada';
 }
 
 function infoUrl(record) {
@@ -65,6 +64,7 @@ function renderHistory(species) {
 async function loadHistory() {
   const status = document.getElementById('history-status');
   try {
+    await (window.AVIAN_NAMES?.ready || Promise.resolve());
     const response = await fetch(`${API}/analytics/species/summary`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const species = (await response.json()).filter((record) => !isNonBird(record));

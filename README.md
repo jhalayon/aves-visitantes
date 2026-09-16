@@ -19,6 +19,9 @@ Pantalla web para visualizar detecciones acústicas de aves y otros animales a p
 app/                            Aplicación web estática y assets visuales
 config/devices.example.yaml    Plantilla unificada de cámaras y dispositivos
 config/birdnet-go.example.yaml Referencia para el stream RTSP
+config/names-overrides.example.json  Ejemplo de correcciones locales de nombres
+scripts/sync_argentina_names.py      Sincroniza la lista argentina
+docs/argentina-names.md         Criterio y fuentes de nombres comunes
 docker-compose.yml              Servidor web/proxy para la pantalla
 nginx.conf.template             Proxy de la API de BirdNET-Go
 ```
@@ -56,9 +59,24 @@ Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo ex
 
 ## Nombres comunes
 
-Las traducciones de los nombres de aves están en `app/config.js`, dentro de `commonNameTranslations`. Si BirdNET-Go devuelve una especie que todavía no está en el diccionario, la interfaz conserva temporalmente el nombre recibido por la API para no ocultar la detección.
+La interfaz resuelve el nombre común con esta prioridad:
+
+1. `config/names-overrides.json`, si existe, para preferencias locales o correcciones.
+2. `runtime/argentina-names.json`, generado desde la lista argentina de CoaRECS.
+3. `commonNameTranslations` en `app/config.js`, para compatibilidad con datos existentes.
+4. El nombre común que entregue BirdNET-Go y, finalmente, el nombre científico.
+
+El nombre científico es la clave estable. No se modifican las detecciones originales ni la configuración del clasificador. Para actualizar el diccionario desde el servidor:
+
+```bash
+python3 scripts/sync_argentina_names.py
+```
+
+El archivo generado queda fuera de Git porque la fuente no declara allí una licencia de redistribución. Si se desea publicar una copia, primero hay que confirmar sus condiciones de uso. La pantalla sigue funcionando sin ese archivo y usa los nombres de respaldo.
 
 Cada tarjeta utiliza el nombre científico como consulta en Wikipedia en castellano y abre el resultado en otra pestaña. Esto evita depender de que todas las especies tengan exactamente el mismo nombre común traducido.
+
+La decisión y las fuentes se documentan en `docs/argentina-names.md`.
 
 ## Publicar en GitHub
 

@@ -12,5 +12,5 @@ services:
       BIRDNET_PORT: "${BIRDNET_PORT:-8090}"
     volumes:
       - ./app:/usr/share/nginx/html:ro
+      - ./runtime:/usr/share/nginx/html/runtime:ro
       - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
-

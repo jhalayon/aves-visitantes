@@ -5,6 +5,7 @@ window.AVIAN_CONFIG = {
   apiPrefix: '/birdnet',
   recentWindowMinutes: 30,
   refreshMinutes: 5,
+  argentinaNamesUrl: '/runtime/argentina-names.json',
   // Se puede ampliar o corregir sin modificar el clasificador.
   commonNameTranslations: {
     "Eurasian Coot": "Focha común",
