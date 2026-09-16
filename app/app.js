@@ -56,6 +56,19 @@ function infoUrl(record) {
   return `https://es.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`;
 }
 
+function setupBrandWidget() {
+  const logo = $('brand-widget-image');
+  const link = $('brand-widget-link');
+  if (!logo || !link) return;
+  if (CONFIG.brandLogoUrl) logo.src = CONFIG.brandLogoUrl;
+  if (CONFIG.brandLinkUrl) {
+    link.href = CONFIG.brandLinkUrl;
+    document.querySelectorAll('.brand-widget-link').forEach((element) => {
+      element.href = CONFIG.brandLinkUrl;
+    });
+  }
+}
+
 function renderBirds(records) {
   const collage = $('bird-collage');
   const birds = grouped(records.filter((record) => !animalKind(record))).slice(0, MAX_BIRDS);
@@ -147,5 +160,6 @@ async function load() {
 
 document.querySelector('.eyebrow').textContent = `MONITOREO ACÚSTICO · ${CONFIG.cameraLabel || 'CÁMARA'}`;
 if (CONFIG.description) document.querySelector('.subtitle').textContent = CONFIG.description;
+setupBrandWidget();
 load();
 setInterval(load, REFRESH_MS);

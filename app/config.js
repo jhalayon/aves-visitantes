@@ -6,6 +6,8 @@ window.AVIAN_CONFIG = {
   recentWindowMinutes: 30,
   refreshMinutes: 5,
   argentinaNamesUrl: '/runtime/argentina-names.json',
+  brandLogoUrl: 'https://www.jalayon.com.ar/home2024/images/author-photo.png',
+  brandLinkUrl: 'https://jalayon.me',
   // Se puede ampliar o corregir sin modificar el clasificador.
   commonNameTranslations: {
     "Eurasian Coot": "Focha común",
