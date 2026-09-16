@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#173b3f" />
+    <title>Historial de detecciones · Visitantes del campo</title>
+    <link rel="stylesheet" href="/styles.css?v=3" />
+  </head>
+  <body>
+    <main class="page-shell history-page">
+      <header class="history-header">
+        <a class="back-link" href="/">← Volver al collage</a>
+        <p class="eyebrow">MONITOREO ACÚSTICO · HISTORIAL</p>
+        <h1>Historial de detecciones</h1>
+        <p class="subtitle">Todas las aves registradas, ordenadas desde la visita más reciente.</p>
+        <div class="history-status" id="history-status">Cargando historial…</div>
+      </header>
+
+      <section class="table-shell" aria-labelledby="history-table-title">
+        <h2 id="history-table-title" class="visually-hidden">Lista histórica de aves</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Miniatura</th>
+                <th scope="col">Nombre científico</th>
+                <th scope="col">Nombre común</th>
+                <th scope="col">Última detección</th>
+                <th scope="col">Cantidad</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <a href="/">Visitantes del campo</a>
+        <span>·</span>
+        <span>La miniatura abre información de la especie en otra pestaña</span>
+      </footer>
+    </main>
+
+    <script src="/config.js?v=4"></script>
+    <script src="/history.js?v=1" defer></script>
+  </body>
+</html>

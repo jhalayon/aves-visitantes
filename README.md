@@ -10,6 +10,7 @@ Pantalla web para visualizar detecciones acústicas de aves y otros animales a p
 - Muestra las aves en un collage y los animales del entorno en una sección inferior separada por una línea.
 - Traduce los nombres comunes desde `app/config.js`, sin modificar el modelo acústico.
 - Permite abrir la información de cada especie en Wikipedia en castellano desde la tarjeta del collage.
+- Incluye `/history.html`, un historial por especie ordenado por última detección.
 - No incluye credenciales ni datos específicos de la instalación.
 
 ## Estructura
@@ -48,6 +49,8 @@ docker compose up -d
 ```
 
 Luego abrir `http://SERVIDOR:8091`.
+
+El enlace `Historial de detecciones` abre una subpágina con miniatura, nombre científico, nombre común, última detección y cantidad total. La miniatura de cada fila conserva el enlace a información externa en otra pestaña.
 
 Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo expone la API necesaria bajo `/birdnet/`; no contiene credenciales.
 
