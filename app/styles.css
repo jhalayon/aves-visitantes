@@ -38,14 +38,10 @@ h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1; }
 .page-nav a:hover, .back-link:hover, .footer a:hover { color: var(--accent); }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
 .window-note { color: var(--ink-soft); font-size: 11px; margin: 0 0 3px; text-align: right; }
-.collage { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; min-height: 310px; align-items: stretch; }
-.species-card { position: relative; min-height: 270px; grid-column: span 3; overflow: hidden; border-radius: 5px; background: var(--paper-deep); box-shadow: var(--shadow); transform: rotate(var(--tilt)); transition: transform .3s ease; color: inherit; text-decoration: none; cursor: pointer; }
+.collage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; min-height: 310px; align-items: stretch; }
+.species-card { position: relative; aspect-ratio: 4 / 3; min-height: 0; overflow: hidden; border-radius: 5px; background: var(--paper-deep); box-shadow: var(--shadow); transform: rotate(var(--tilt)); transition: transform .3s ease; color: inherit; text-decoration: none; cursor: pointer; }
 .species-card:hover { transform: rotate(0deg) translateY(-5px); }
-.species-card:nth-child(1) { grid-column: span 4; min-height: 330px; }
-.species-card:nth-child(2) { grid-column: span 3; }
-.species-card:nth-child(3) { grid-column: span 3; min-height: 300px; }
-.species-card:nth-child(4) { grid-column: span 2; }
-.species-card img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.82) contrast(.96); }
+.species-card img { width: 100%; height: 100%; object-fit: contain; display: block; filter: saturate(.82) contrast(.96); }
 .species-card .wash { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 43%, rgba(12, 39, 39, .8)); }
 .species-card .card-copy { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px; color: #f9f5eb; }
 .common-name { font: 650 24px/1 Fraunces, Georgia, serif; max-width: 95%; }
@@ -93,15 +89,14 @@ tbody tr:hover { background: rgba(244, 240, 231, .66); }
   .masthead { display: block; margin-bottom: 32px; }
   .page-nav { justify-content: flex-start; margin: -6px 0 28px; }
   .status-pill { display: inline-flex; margin-top: 22px; }
-  .collage { grid-template-columns: repeat(2, 1fr); }
-  .species-card, .species-card:nth-child(n) { grid-column: span 1; min-height: 230px; }
-  .species-card:nth-child(1) { min-height: 280px; }
+  .collage { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .animal-row { grid-template-columns: repeat(2, 1fr); }
   .footer { flex-wrap: wrap; text-align: center; }
   .history-header { padding-bottom: 30px; }
 }
 
 @media (max-width: 460px) {
+  .collage { grid-template-columns: 1fr; }
   .section-heading { display: block; }
   .window-note { text-align: left; margin-top: 10px; }
   .animal-row { grid-template-columns: 1fr; }
