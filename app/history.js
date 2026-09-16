@@ -16,6 +16,11 @@ function thumbnailUrl(record) {
   return source.startsWith('/api/v2/') ? `${API}${source.slice('/api/v2'.length)}` : source;
 }
 
+function isNonBird(record) {
+  const text = `${record.common_name || ''} ${record.scientific_name || ''}`.toLowerCase();
+  return text.includes('dog') || text.includes('canis') || text.includes('horse') || text.includes('equus') || text.includes('sheep') || text.includes('ovis') || text.includes('cattle') || text.includes('bos ');
+}
+
 function formatTimestamp(value) {
   if (!value) return '—';
   const date = new Date(value);
@@ -62,7 +67,7 @@ async function loadHistory() {
   try {
     const response = await fetch(`${API}/analytics/species/summary`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const species = await response.json();
+    const species = (await response.json()).filter((record) => !isNonBird(record));
     species.sort((a, b) => new Date(b.last_heard).getTime() - new Date(a.last_heard).getTime());
     renderHistory(species);
     status.textContent = `${species.length} especie${species.length === 1 ? '' : 's'} registrada${species.length === 1 ? '' : 's'}`;
