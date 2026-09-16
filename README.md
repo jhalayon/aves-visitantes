@@ -1,99 +1,133 @@
 # Avian Visitors
 
-Pantalla web para visualizar detecciones acústicas de aves y otros animales a partir de BirdNET-Go. Está pensada para dejarse abierta en un tab de Chrome y se actualiza automáticamente.
+Avian Visitors es una pantalla web para monitoreo bioacústico. Toma el audio captado por cámaras de seguridad IP con micrófono —y puede incorporar porteros IP o micrófonos de red—, lo envía a BirdNET-Go para identificar aves y compone una vista visual con las detecciones recientes.
+
+Está pensada para ejecutarse en un Linux server y dejarse abierta en un tab de Chrome. La pantalla se actualiza automáticamente cada cinco minutos.
 
 ## Qué hace
 
-- Consulta las detecciones del BirdNET-Go configurado en el servidor.
+- Recibe audio desde el stream RTSP de cámaras de seguridad IP u otros dispositivos acústicos configurados.
+- Usa BirdNET-Go como motor de análisis acústico e identificación de especies.
+- Consulta las detecciones de BirdNET-Go a través de su API, sin modificar el clasificador ni los registros originales.
 - Si hay actividad en los últimos 30 minutos, compone solo esas detecciones.
 - Si no hay actividad reciente, conserva las últimas detecciones conocidas para evitar una pantalla vacía.
-- Muestra las aves en un collage y los animales del entorno en una sección inferior separada por una línea.
-- Traduce los nombres comunes desde `app/config.js`, sin modificar el modelo acústico.
-- Permite abrir la información de cada especie en Wikipedia en castellano desde la tarjeta del collage.
-- Incluye `/history.html`, un historial por especie ordenado por última detección.
-- No incluye credenciales ni datos específicos de la instalación.
+- Muestra las aves identificadas en un collage y los animales del entorno en una sección inferior separada.
+- Resuelve nombres comunes argentinos mediante un diccionario local basado en la lista de CoaRECS, con fallback a los nombres españoles de BirdNET-Go.
+- Permite abrir información externa de cada especie en Wikipedia en castellano desde la tarjeta del collage.
+- Incluye un historial por especie ordenado por última detección, con miniatura, nombre científico, nombre común, timestamp y cantidad.
+- Separa la configuración de dispositivos de la interfaz para poder sumar cámaras, porteros IP y micrófonos.
 
-## Estructura
+El audio es el diferenciador central del proyecto: la fuente de escucha no es un navegador ni un micrófono conectado a la computadora que muestra la página, sino un dispositivo de seguridad o sensor de red ubicado en el entorno monitoreado.
+
+## Flujo del sistema
 
 ```text
-app/                            Aplicación web estática y assets visuales
-config/devices.example.yaml    Plantilla unificada de cámaras y dispositivos
-config/birdnet-go.example.yaml Referencia para el stream RTSP
-config/names-overrides.example.json  Ejemplo de correcciones locales de nombres
-scripts/sync_argentina_names.py      Sincroniza la lista argentina
-docs/argentina-names.md         Criterio y fuentes de nombres comunes
-docker-compose.yml              Servidor web/proxy para la pantalla
-nginx.conf.template             Proxy de la API de BirdNET-Go
+Cámara IP / portero IP / micrófono de red
+              │ audio RTSP
+              ▼
+          BirdNET-Go
+       identificación acústica
+              │ API HTTP
+              ▼
+        Avian Visitors
+     collage + historial web
 ```
 
-## Configurar una cámara
+## Arquitectura
+
+- `app/`: interfaz web estática, collage, historial y assets visuales.
+- `config/`: ejemplos de configuración para dispositivos y BirdNET-Go.
+- `scripts/`: tareas operativas, incluyendo la sincronización de nombres argentinos.
+- `docs/`: decisiones de diseño y fuentes de datos.
+- `docker-compose.yml`: servidor Nginx y proxy hacia la API de BirdNET-Go.
+- `nginx.conf.template`: configuración del proxy bajo `/birdnet/`.
+
+La aplicación actual está enfocada en una fuente, pero el formato de configuración ya contempla múltiples dispositivos mediante identificadores como `CAM142`, `POR001` y `MIC001`, además de tipo, IP, protocolo, ubicación, provincia y país.
+
+## Requisitos
+
+- Linux server o entorno compatible con Docker Compose.
+- BirdNET-Go ejecutándose y accesible por HTTP.
+- Una cámara IP, portero IP o micrófono de red con stream de audio RTSP.
+- Navegador moderno para visualizar la pantalla.
+
+BirdNET-Go debe encargarse de la captura y análisis del audio. Avian Visitors consulta y presenta sus resultados; no procesa directamente el stream RTSP en el navegador.
+
+## Configurar una cámara o dispositivo
 
 Copiar los ejemplos y completar los valores únicamente en el servidor:
 
 ```bash
 cp config/devices.example.yaml config/devices.yaml
 cp config/birdnet-go.example.yaml config/birdnet-go.yaml
-chmod 600 config/devices.yaml config/birdnet-go.yaml
+cp .env.example .env
+chmod 600 config/devices.yaml config/birdnet-go.yaml .env
 ```
 
-En `config/devices.yaml` cada fuente tiene un identificador estable (`CAM142`, `POR001`, `MIC001`), tipo, número, dirección IP, protocolo, credenciales, parámetros de audio y ubicación. Las credenciales y las coordenadas reales deben permanecer solo en el archivo local ignorado por Git. Para BirdNET-Go, usar el stream correspondiente y conservar `mediaMode: audio-only` cuando solo se necesita el micrófono.
+En `config/devices.yaml` cada fuente tiene un identificador estable (`CAM142`, `POR001`, `MIC001`), tipo, número, dirección IP, protocolo, credenciales, parámetros de audio y ubicación. Para BirdNET-Go, usar el stream correspondiente y conservar `mediaMode: audio-only` cuando solo se necesita el micrófono.
 
-El path habitual para estas cámaras es `/onvif1`, pero debe verificarse con el modelo instalado.
-
-Los campos `id`, `type`, `number`, `province` y `country` permiten agregar posteriormente filtros por dispositivo, tipo de fuente o provincia sin cambiar el formato de las detecciones. La aplicación web actual está enfocada en una fuente; el filtrado multi-dispositivo será la siguiente capa.
+El path habitual para algunas cámaras es `/onvif1`, pero debe verificarse para cada modelo instalado. Los campos `id`, `type`, `number`, `province` y `country` permitirán agregar filtros por dispositivo, tipo de fuente o provincia en una futura versión.
 
 ## Ejecutar la pantalla
 
 La aplicación espera que BirdNET-Go esté disponible en el host del servidor, por defecto en el puerto `8090`:
 
 ```bash
-cp .env.example .env
 docker compose up -d
 ```
 
 Luego abrir `http://SERVIDOR:8091`.
 
-El enlace `Historial de detecciones` abre una subpágina con miniatura, nombre científico, nombre común, última detección y cantidad total. La miniatura de cada fila conserva el enlace a información externa en otra pestaña.
+El enlace `Historial de detecciones` abre una subpágina con el resumen de especies registradas. La miniatura de cada fila conserva el enlace a información externa en otra pestaña.
 
 Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo expone la API necesaria bajo `/birdnet/`; no contiene credenciales.
 
-## Nombres comunes
+## Nombres comunes argentinos
 
 La interfaz resuelve el nombre común con esta prioridad:
 
-1. `config/names-overrides.json`, si existe, para preferencias locales o correcciones.
+1. `config/names-overrides.json`, para preferencias locales o correcciones.
 2. `runtime/argentina-names.json`, generado desde la lista argentina de CoaRECS.
 3. `commonNameTranslations` en `app/config.js`, para compatibilidad con datos existentes.
-4. El nombre común que entregue BirdNET-Go y, finalmente, el nombre científico.
+4. El nombre común recibido de BirdNET-Go y, finalmente, el nombre científico.
 
-El nombre científico es la clave estable. No se modifican las detecciones originales ni la configuración del clasificador. Para actualizar el diccionario desde el servidor:
+Para actualizar el diccionario desde el servidor:
 
 ```bash
 python3 scripts/sync_argentina_names.py
 ```
 
-El archivo generado queda fuera de Git porque la fuente no declara allí una licencia de redistribución. Si se desea publicar una copia, primero hay que confirmar sus condiciones de uso. La pantalla sigue funcionando sin ese archivo y usa los nombres de respaldo.
+La decisión y las fuentes se documentan en [docs/argentina-names.md](docs/argentina-names.md). Gemini puede ayudar a proponer correcciones, pero no se utiliza como autoridad automática en tiempo de ejecución.
 
-Cada tarjeta utiliza el nombre científico como consulta en Wikipedia en castellano y abre el resultado en otra pestaña. Esto evita depender de que todas las especies tengan exactamente el mismo nombre común traducido.
+## Seguridad y publicación
 
-La decisión y las fuentes se documentan en `docs/argentina-names.md`.
+Este repositorio está preparado para ser público:
 
-## Publicar en GitHub
+- No contiene contraseñas, tokens, claves SSH, IPs privadas reales ni coordenadas de la instalación.
+- `.env`, `config/devices.yaml`, `config/birdnet-go.yaml`, `config/names-overrides.json` y `runtime/` están excluidos por `.gitignore`.
+- Los archivos `*.example.*` contienen únicamente valores de referencia.
+- Antes de cada publicación conviene comprobar `git status` y revisar los archivos nuevos.
 
-Desde la raíz del repositorio:
+Nunca usar los archivos de ejemplo para almacenar credenciales reales en un commit.
 
-```bash
-git init
-git add .
-git status
-git commit -m "Add Avian Visitors display"
-git branch -M main
-git remote add origin URL_DEL_REPOSITORIO
-git push -u origin main
-```
+## Fuentes y contenido de terceros
 
-Antes del primer `git add`, comprobar que los archivos reales de configuración no aparezcan en `git status`.
+- [BirdNET-Go](https://github.com/tphakala/birdnet-go) aporta el motor de identificación y su API.
+- [CoaRECS — Lista de Aves de Argentina](https://www.coarecs.com.ar/argentina/index_csv_sc.php) aporta el diccionario argentino sincronizable.
+- [Aves Argentinas — Checklist de las aves argentinas](https://www.avesargentinas.org.ar/checklist-de-las-aves-argentinas) se utiliza como referencia taxonómica.
+- Las imágenes de aves son servidas por BirdNET-Go y los enlaces informativos apuntan a Wikipedia; esos contenidos y sus licencias pertenecen a sus respectivos autores o servicios.
+- El logo personal se carga desde el sitio de Jorge Alayón y no forma parte de los assets originales licenciados del proyecto.
+
+## Licencia
+
+El código y los assets originales de Avian Visitors se distribuyen bajo la [licencia MIT](LICENSE).
+
+La licencia MIT de este repositorio no otorga derechos adicionales sobre BirdNET-Go, Wikipedia, las imágenes remotas, la lista de CoaRECS ni el logo personal. Consultar las condiciones de cada fuente antes de redistribuir sus contenidos.
+
+## Contribuir
+
+Las mejoras de la interfaz, nuevos adaptadores de dispositivos, fuentes de nombres regionales y correcciones de documentación son bienvenidas. Evitar incluir datos de instalaciones privadas, credenciales o grabaciones de audio en issues y pull requests.
 
 ## Próximos pasos
 
-La capa visual está separada de la ingesta y del clasificador. Esto permite cambiar posteriormente tipografías, composición, animaciones y estilo para acercarlo al proyecto original sin modificar la captura de audio.
+La capa visual está separada de la ingesta y del clasificador. Esto permite sumar filtros por dispositivo/provincia y acercar la estética al proyecto original sin modificar la captura de audio ni el modelo acústico.
