@@ -21,11 +21,14 @@ La hora de inicio de cada checklist es la primera detección aceptada de ese dí
 ## Qué exporta
 
 - Una fila por especie seleccionada.
-- Nombre común resuelto por el diccionario argentino de la aplicación.
+- Nombre común vacío para evitar que los nombres argentinos locales bloqueen la coincidencia taxonómica de eBird.
 - Género y especie científicos separados.
 - Presencia `X`, porque una detección acústica no estima la cantidad de individuos.
 - Fecha, hora de inicio diaria, ubicación, protocolo y duración indicados en el formulario.
-- Comentarios con la cantidad de detecciones, confianza máxima y rango horario observado.
+- Comentarios con el nombre local argentino, cantidad de detecciones, confianza máxima y rango horario observado.
+- El campo de todas las observaciones reportadas usa `S`/`N`, según la interfaz en español de eBird.
+
+eBird documenta que no es necesario enviar nombre común y nombre científico a la vez: se puede usar uno de los dos. Por eso el exportador prioriza `Genus` + `Species`, que son la referencia taxonómica más estable, y conserva el nombre común local como comentario.
 
 La casilla “todas las observaciones reportadas” queda desactivada por defecto: una cámara con micrófono no permite afirmar por sí sola que no hubo otras especies. La persona que importa el archivo debe revisar las especies, ubicación, protocolo y campos taxonómicos antes de enviarlo.
 

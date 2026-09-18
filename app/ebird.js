@@ -249,13 +249,13 @@
       .map(function (checkbox) { return candidateGroups[Number(checkbox.dataset.index)]; })
       .filter(Boolean);
     if (!selected.length) throw new Error('Seleccioná al menos una especie.');
-    const commonComment = 'Detecciones acústicas: {count}; confianza máxima: {confidence}%; primera: {first}; última: {last}; BirdNET-Go';
+    const commonComment = 'Nombre local: {commonName}; detecciones acústicas: {count}; confianza máxima: {confidence}%; primera: {first}; última: {last}; BirdNET-Go';
     const submissionComment = 'Detecciones acústicas automáticas revisadas antes de la importación. BirdNET-Go.';
     const rows = selected.map(function (group) {
       const scientific = splitScientificName(group.scientificName);
-      const comment = commonComment.replace('{count}', group.count).replace('{confidence}', Math.round(group.maxConfidence)).replace('{first}', formatClock(group.firstTimestamp)).replace('{last}', formatClock(group.lastTimestamp));
+      const comment = commonComment.replace('{commonName}', group.commonName).replace('{count}', group.count).replace('{confidence}', Math.round(group.maxConfidence)).replace('{first}', formatClock(group.firstTimestamp)).replace('{last}', formatClock(group.lastTimestamp));
       return [
-        group.commonName,
+        '',
         scientific.genus,
         scientific.species,
         'X',
@@ -270,7 +270,7 @@
         values.protocol,
         '1',
         values.duration,
-        values.allObservations ? 'Y' : 'N',
+        values.allObservations ? 'S' : 'N',
         '',
         '',
         submissionComment
