@@ -35,7 +35,7 @@ Cámara IP / portero IP / micrófono de red
 
 ## Arquitectura
 
-- `app/`: interfaz web estática, collage, historial y assets visuales.
+- `app/`: interfaz web estática, collage, historial, exportador revisado a eBird y assets visuales.
 - `config/`: ejemplos de configuración para dispositivos y BirdNET-Go.
 - `scripts/`: tareas operativas, incluyendo la sincronización de nombres argentinos.
 - `docs/`: decisiones de diseño y fuentes de datos.
@@ -79,6 +79,18 @@ docker compose up -d
 Luego abrir `http://SERVIDOR:8091`.
 
 El enlace `Historial de detecciones` abre una subpágina con el resumen de especies registradas. La miniatura de cada fila conserva el enlace a información externa en otra pestaña.
+
+## Preparar un registro para eBird
+
+El enlace `Preparar CSV para eBird` consulta las detecciones de BirdNET-Go, aplica filtros de fecha, horario, confianza y cantidad mínima, y muestra una lista para revisión humana. Después genera un CSV compatible con la herramienta oficial de importación de eBird; no publica observaciones automáticamente ni envía credenciales a eBird.
+
+El flujo es:
+
+```text
+BirdNET-Go → selección y revisión → Descargar CSV → eBird / Enviar / Importar datos
+```
+
+La exportación usa `X` para indicar presencia, porque el análisis acústico no permite inferir de forma confiable la cantidad de individuos. La ubicación, provincia, protocolo y duración se completan en la página y se guardan únicamente en el navegador. Ver los detalles en [docs/ebird-export.md](docs/ebird-export.md).
 
 Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo expone la API necesaria bajo `/birdnet/`; no contiene credenciales.
 

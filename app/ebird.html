@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#173b3f" />
+    <title>Preparar observaciones para eBird</title>
+    <link rel="stylesheet" href="/styles.css?v=5" />
+  </head>
+  <body>
+    <main class="page-shell history-page ebird-page">
+      <header class="history-header ebird-header">
+        <p class="eyebrow">EXPORTACIÓN REVISADA</p>
+        <h1>Preparar observaciones para eBird</h1>
+        <p class="subtitle">
+          Convierte detecciones acústicas de BirdNET-Go en un CSV compatible con la importación de eBird.
+          Revisá la lista antes de descargarla: la aplicación no publica observaciones automáticamente.
+        </p>
+      </header>
+
+      <div class="history-actions">
+        <a class="back-link" href="/">← Volver al collage</a>
+        <a class="back-link" href="/history.html">Ver historial →</a>
+      </div>
+
+      <section class="ebird-panel" aria-labelledby="filters-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">1 · Ventana de detección</p>
+            <h2 id="filters-title">Datos de la observación</h2>
+          </div>
+          <p class="window-note">Se guardan solo en este navegador</p>
+        </div>
+
+        <form id="ebird-form" class="ebird-form">
+          <label class="form-field">
+            <span>Fecha <strong>*</strong></span>
+            <input id="observation-date" name="date" type="date" required />
+          </label>
+          <label class="form-field">
+            <span>Desde</span>
+            <input id="start-time" name="startTime" type="time" />
+          </label>
+          <label class="form-field">
+            <span>Hasta</span>
+            <input id="end-time" name="endTime" type="time" />
+          </label>
+          <label class="form-field form-field-wide">
+            <span>Nombre de la ubicación <strong>*</strong></span>
+            <input id="location-name" name="locationName" type="text" placeholder="Ej.: Exterior CAM142, Córdoba" required />
+          </label>
+          <label class="form-field">
+            <span>Latitud</span>
+            <input id="latitude" name="latitude" inputmode="decimal" placeholder="-32.130333" />
+          </label>
+          <label class="form-field">
+            <span>Longitud</span>
+            <input id="longitude" name="longitude" inputmode="decimal" placeholder="-64.710528" />
+          </label>
+          <label class="form-field">
+            <span>Provincia / estado (código)</span>
+            <input id="state-province" name="stateProvince" type="text" value="X" maxlength="3" placeholder="Ej.: X" />
+            <small class="field-help">Para Córdoba, eBird usa normalmente X. Verificá el código de tu ubicación.</small>
+          </label>
+          <label class="form-field">
+            <span>País (código)</span>
+            <input id="country-code" name="countryCode" type="text" value="AR" maxlength="2" required />
+          </label>
+          <label class="form-field">
+            <span>Protocolo</span>
+            <select id="protocol" name="protocol">
+              <option value="Incidental">Incidental</option>
+              <option value="Stationary">Stationary</option>
+            </select>
+          </label>
+          <label class="form-field">
+            <span>Duración (minutos)</span>
+            <input id="duration" name="duration" type="number" min="1" max="1440" value="30" required />
+          </label>
+          <label class="form-field">
+            <span>Confianza mínima</span>
+            <input id="min-confidence" name="minConfidence" type="number" min="0" max="100" value="70" required />
+            <small class="field-help">Porcentaje de confianza BirdNET-Go.</small>
+          </label>
+          <label class="form-field">
+            <span>Mínimo de detecciones</span>
+            <input id="min-detections" name="minDetections" type="number" min="1" max="1000" value="1" required />
+            <small class="field-help">Ayuda a descartar detecciones aisladas.</small>
+          </label>
+          <div class="form-field form-field-wide form-check-field">
+            <label class="checkbox-label">
+              <input id="all-observations" name="allObservations" type="checkbox" />
+              <span>Marcar “todas las observaciones reportadas”</span>
+            </label>
+            <small class="field-help">Dejalo desactivado si el audio no permite afirmar que no hubo otras especies.</small>
+          </div>
+          <div class="ebird-actions form-field-wide">
+            <button type="submit" class="primary-button">Cargar detecciones</button>
+            <span id="load-status" class="inline-status" aria-live="polite">Todavía no se cargaron detecciones.</span>
+          </div>
+        </form>
+      </section>
+
+      <section class="ebird-panel review-panel" aria-labelledby="review-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">2 · Revisión humana</p>
+            <h2 id="review-title">Especies candidatas</h2>
+          </div>
+          <p class="window-note" id="review-summary">Cargá una ventana para comenzar</p>
+        </div>
+        <div class="review-shell">
+          <div class="table-scroll">
+            <table class="review-table">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="visually-hidden">Incluir</span></th>
+                  <th scope="col">Ave</th>
+                  <th scope="col">Detecciones</th>
+                  <th scope="col">Confianza máxima</th>
+                  <th scope="col">Primera / última</th>
+                </tr>
+              </thead>
+              <tbody id="review-body">
+                <tr><td colspan="5" class="table-empty">Las detecciones aparecerán aquí.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ebird-actions export-actions">
+          <button id="download-csv" type="button" class="primary-button" disabled>Descargar CSV para eBird</button>
+          <span id="export-status" class="inline-status" aria-live="polite">Revisá y seleccioná las especies que quieras exportar.</span>
+        </div>
+        <p class="export-note">
+          El archivo se descarga en tu navegador. Luego, en eBird, elegí <strong>Enviar → Importar datos</strong>.
+          Las detecciones acústicas se exportan como presencia (X), no como cantidad de individuos.
+        </p>
+      </section>
+
+      <footer class="footer">
+        <span>Avian Visitors</span>
+        <span>·</span>
+        <a href="https://support.ebird.org/en/support/solutions/articles/48000907878" target="_blank" rel="noopener noreferrer">Formato oficial de importación eBird ↗</a>
+      </footer>
+    </main>
+
+    <script src="/config.js?v=5"></script>
+    <script src="/names.js?v=1"></script>
+    <script src="/ebird.js?v=1" defer></script>
+  </body>
+</html>
