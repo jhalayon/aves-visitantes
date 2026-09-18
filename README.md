@@ -90,7 +90,7 @@ El flujo es:
 BirdNET-Go → selección y revisión → Descargar CSV → eBird / Enviar / Importar datos
 ```
 
-La exportación usa `X` para indicar presencia, porque el análisis acústico no permite inferir de forma confiable la cantidad de individuos. Cada día se representa como un checklist independiente dentro del archivo. En la pantalla de importación de eBird hay que elegir el formato **Extendido**, no **Rejilla**. Para evitar errores por nombres comunes argentinos que no estén en el catálogo de eBird, el CSV identifica las especies mediante género y especie científicos; el nombre local se conserva en los comentarios. La ubicación, provincia, protocolo y duración se completan en la página y se guardan únicamente en el navegador. Ver los detalles en [docs/ebird-export.md](docs/ebird-export.md).
+La exportación usa `X` para indicar presencia, porque el análisis acústico no permite inferir de forma confiable la cantidad de individuos. Cada día se representa como un checklist independiente dentro del archivo. En la pantalla de importación de eBird hay que elegir el formato **Extendido**, no **Rejilla**. El CSV usa el nombre común estándar recibido de BirdNET-Go junto con el género y la especie científicos; el nombre argentino local se conserva en los comentarios para evitar que las variantes regionales bloqueen la coincidencia taxonómica. La ubicación, provincia, protocolo y duración se completan en la página y se guardan únicamente en el navegador. Ver los detalles en [docs/ebird-export.md](docs/ebird-export.md).
 
 Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo expone la API necesaria bajo `/birdnet/`; no contiene credenciales.
 

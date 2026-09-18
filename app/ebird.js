@@ -178,6 +178,7 @@
       if (!groups.has(key)) groups.set(key, {
         scientificName,
         commonName: displayCommonName(record),
+        ebirdCommonName: String(record.commonName || '').trim() || scientificName,
         observationDate,
         records: [],
         count: 0,
@@ -255,7 +256,7 @@
       const scientific = splitScientificName(group.scientificName);
       const comment = commonComment.replace('{commonName}', group.commonName).replace('{count}', group.count).replace('{confidence}', Math.round(group.maxConfidence)).replace('{first}', formatClock(group.firstTimestamp)).replace('{last}', formatClock(group.lastTimestamp));
       return [
-        '',
+        group.ebirdCommonName,
         scientific.genus,
         scientific.species,
         'X',
