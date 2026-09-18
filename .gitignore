@@ -4,6 +4,7 @@ runtime/
 config/cameras.yaml
 config/devices.yaml
 config/birdnet-go.yaml
+config/ebird.htpasswd
 
 # Local credentials and keys
 *.pem

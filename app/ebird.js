@@ -2,7 +2,7 @@
   'use strict';
 
   const config = window.AVIAN_CONFIG || {};
-  const apiPrefix = config.apiPrefix || '/birdnet';
+  const apiPrefix = config.ebirdApiPrefix || config.apiPrefix || '/birdnet';
   const settingsKey = 'avian-ebird-settings';
   const maxDetections = 20000;
   const nonBirdPattern = /dog|canis|horse|equus|sheep|ovis|cattle|cow|bos|goat|capra/i;
@@ -48,7 +48,8 @@
   }
 
   function dateMatches(date, values) {
-    if (!date || values.date !== localDateValue(date)) return false;
+    const dateValue = date && localDateValue(date);
+    if (!dateValue || dateValue < values.dateFrom || dateValue > values.dateTo) return false;
     const minutes = localMinutes(date);
     if (values.startTime && minutes < timeToMinutes(values.startTime)) return false;
     if (values.endTime && minutes > timeToMinutes(values.endTime)) return false;
@@ -84,7 +85,8 @@
   function readValues() {
     const data = new FormData(form);
     return {
-      date: String(data.get('date') || ''),
+      dateFrom: String(data.get('dateFrom') || ''),
+      dateTo: String(data.get('dateTo') || ''),
       startTime: String(data.get('startTime') || ''),
       endTime: String(data.get('endTime') || ''),
       locationName: String(data.get('locationName') || '').trim(),
@@ -109,10 +111,16 @@
   }
 
   function restoreValues() {
-    byId('observation-date').value = localDateValue(new Date());
+    const today = localDateValue(new Date());
+    byId('observation-date-from').value = today;
+    byId('observation-date-to').value = today;
     try {
       const saved = JSON.parse(localStorage.getItem(settingsKey) || 'null');
       if (!saved) return;
+      if (saved.date && !saved.dateFrom) {
+        saved.dateFrom = saved.date;
+        saved.dateTo = saved.date;
+      }
       Object.keys(saved).forEach(function (key) {
         const field = byId(fieldId(key));
         if (!field) return;
@@ -126,7 +134,7 @@
 
   function fieldId(key) {
     const ids = {
-      date: 'observation-date', startTime: 'start-time', endTime: 'end-time',
+      dateFrom: 'observation-date-from', dateTo: 'observation-date-to',
       locationName: 'location-name', latitude: 'latitude', longitude: 'longitude',
       stateProvince: 'state-province', countryCode: 'country-code', protocol: 'protocol',
       duration: 'duration', minConfidence: 'min-confidence', minDetections: 'min-detections',
@@ -154,6 +162,7 @@
 
   function groupDetections(records, values) {
     const groups = new Map();
+    const dailyStartTimes = new Map();
     records.forEach(function (record) {
       const timestamp = parseTimestamp(record);
       const scientificName = String(record.scientificName || '').trim();
@@ -161,10 +170,15 @@
       if (String(record.modelType || 'bird').toLowerCase() !== 'bird' || nonBirdPattern.test(scientificName + ' ' + (record.commonName || ''))) return;
       const confidence = confidenceOf(record);
       if (confidence < values.minConfidence) return;
-      const key = scientificName.toLowerCase();
+      const observationDate = localDateValue(timestamp);
+      if (!dailyStartTimes.has(observationDate) || timestamp < dailyStartTimes.get(observationDate)) {
+        dailyStartTimes.set(observationDate, timestamp);
+      }
+      const key = observationDate + '|' + scientificName.toLowerCase();
       if (!groups.has(key)) groups.set(key, {
         scientificName,
         commonName: displayCommonName(record),
+        observationDate,
         records: [],
         count: 0,
         maxConfidence: 0,
@@ -180,13 +194,17 @@
     });
     return Array.from(groups.values())
       .filter(function (group) { return group.count >= values.minDetections; })
+      .map(function (group) {
+        group.checklistStartTimestamp = dailyStartTimes.get(group.observationDate) || group.firstTimestamp;
+        return group;
+      })
       .sort(function (a, b) { return b.lastTimestamp - a.lastTimestamp || b.maxConfidence - a.maxConfidence; });
   }
 
   function renderGroups(groups) {
     candidateGroups = groups;
     if (!groups.length) {
-      reviewBody.innerHTML = '<tr><td colspan="5" class="table-empty">No hay candidatas con estos filtros.</td></tr>';
+      reviewBody.innerHTML = '<tr><td colspan="6" class="table-empty">No hay candidatas con estos filtros.</td></tr>';
       reviewSummary.textContent = '0 especies candidatas';
       downloadButton.disabled = true;
       return;
@@ -194,13 +212,15 @@
     reviewBody.innerHTML = groups.map(function (group, index) {
       return '<tr>' +
         '<td class="include-cell"><input class="species-toggle" type="checkbox" data-index="' + index + '" checked aria-label="Incluir ' + escapeHtml(group.commonName) + '"></td>' +
+        '<td>' + escapeHtml(formatDisplayDate(group.observationDate)) + '</td>' +
         '<td><div class="review-common">' + escapeHtml(group.commonName) + '</div><div class="review-scientific">' + escapeHtml(group.scientificName) + '</div></td>' +
         '<td class="count-cell">' + group.count + '</td>' +
         '<td>' + Math.round(group.maxConfidence) + '%</td>' +
         '<td>' + formatClock(group.firstTimestamp) + ' / ' + formatClock(group.lastTimestamp) + '</td>' +
         '</tr>';
     }).join('');
-    reviewSummary.textContent = groups.length + (groups.length === 1 ? ' especie candidata' : ' especies candidatas');
+    const checklistCount = new Set(groups.map(function (group) { return group.observationDate; })).size;
+    reviewSummary.textContent = groups.length + (groups.length === 1 ? ' observación' : ' observaciones') + ' en ' + checklistCount + (checklistCount === 1 ? ' checklist' : ' checklists');
     downloadButton.disabled = false;
   }
 
@@ -216,6 +236,11 @@
   function formatEbirdDate(value) {
     const parts = String(value || '').split('-');
     return parts.length === 3 ? parts[1] + '/' + parts[2] + '/' + parts[0] : value;
+  }
+
+  function formatDisplayDate(value) {
+    const parts = String(value || '').split('-');
+    return parts.length === 3 ? parts[2] + '/' + parts[1] + '/' + parts[0] : value;
   }
 
   function buildCsv() {
@@ -238,8 +263,8 @@
         values.locationName,
         values.latitude,
         values.longitude,
-        formatEbirdDate(values.date),
-        formatClock(group.firstTimestamp),
+        formatEbirdDate(group.observationDate),
+        formatClock(group.checklistStartTimestamp),
         values.stateProvince,
         values.countryCode,
         values.protocol,
@@ -261,7 +286,9 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'ebird-' + (byId('observation-date').value || 'observaciones') + '.csv';
+      const values = readValues();
+      const suffix = values.dateFrom === values.dateTo ? values.dateFrom : values.dateFrom + '-a-' + values.dateTo;
+      link.download = 'ebird-' + (suffix || 'observaciones') + '.csv';
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -276,6 +303,10 @@
     event.preventDefault();
     if (!form.reportValidity()) return;
     const values = readValues();
+    if (!values.dateFrom || !values.dateTo || values.dateTo < values.dateFrom) {
+      loadStatus.textContent = 'La fecha hasta debe ser igual o posterior a la fecha desde.';
+      return;
+    }
     saveValues(values);
     loadStatus.textContent = 'Consultando BirdNET-Go…';
     downloadButton.disabled = true;
@@ -287,7 +318,7 @@
       exportStatus.textContent = groups.length ? 'Revisá la selección y descargá el CSV.' : 'No hay especies para exportar con estos filtros.';
     } catch (error) {
       candidateGroups = [];
-      reviewBody.innerHTML = '<tr><td colspan="5" class="table-empty">No se pudieron cargar las detecciones.</td></tr>';
+      reviewBody.innerHTML = '<tr><td colspan="6" class="table-empty">No se pudieron cargar las detecciones.</td></tr>';
       reviewSummary.textContent = 'Error de consulta';
       loadStatus.textContent = error.message;
       exportStatus.textContent = 'Verificá que BirdNET-Go esté disponible en el puerto 8090.';

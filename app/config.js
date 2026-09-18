@@ -3,6 +3,7 @@ window.AVIAN_CONFIG = {
   cameraLabel: 'Exterior CAM142 Cordoba - Argentina',
   description: 'Una composición viva a partir de sonidos que escuchan dispositivos de seguridad',
   apiPrefix: '/birdnet',
+  ebirdApiPrefix: '/ebird-api',
   recentWindowMinutes: 30,
   refreshMinutes: 5,
   argentinaNamesUrl: '/runtime/argentina-names.json',

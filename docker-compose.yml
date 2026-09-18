@@ -14,3 +14,9 @@ services:
       - ./app:/usr/share/nginx/html:ro
       - ./runtime:/usr/share/nginx/html/runtime:ro
       - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+    secrets:
+      - ebird_htpasswd
+
+secrets:
+  ebird_htpasswd:
+    file: ${EBIRD_AUTH_FILE:-./config/ebird.htpasswd}

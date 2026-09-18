@@ -14,7 +14,7 @@
         <h1>Preparar observaciones para eBird</h1>
         <p class="subtitle">
           Convierte detecciones acústicas de BirdNET-Go en un CSV compatible con la importación de eBird.
-          Revisá la lista antes de descargarla: la aplicación no publica observaciones automáticamente.
+          Podés preparar varios días en un solo archivo y revisar la lista antes de descargarla.
         </p>
       </header>
 
@@ -34,8 +34,12 @@
 
         <form id="ebird-form" class="ebird-form">
           <label class="form-field">
-            <span>Fecha <strong>*</strong></span>
-            <input id="observation-date" name="date" type="date" required />
+            <span>Fecha desde <strong>*</strong></span>
+            <input id="observation-date-from" name="dateFrom" type="date" required />
+          </label>
+          <label class="form-field">
+            <span>Fecha hasta <strong>*</strong></span>
+            <input id="observation-date-to" name="dateTo" type="date" required />
           </label>
           <label class="form-field">
             <span>Desde</span>
@@ -115,6 +119,7 @@
               <thead>
                 <tr>
                   <th scope="col"><span class="visually-hidden">Incluir</span></th>
+                  <th scope="col">Fecha</th>
                   <th scope="col">Ave</th>
                   <th scope="col">Detecciones</th>
                   <th scope="col">Confianza máxima</th>
@@ -122,7 +127,7 @@
                 </tr>
               </thead>
               <tbody id="review-body">
-                <tr><td colspan="5" class="table-empty">Las detecciones aparecerán aquí.</td></tr>
+                <tr><td colspan="6" class="table-empty">Las detecciones aparecerán aquí.</td></tr>
               </tbody>
             </table>
           </div>
@@ -144,8 +149,8 @@
       </footer>
     </main>
 
-    <script src="/config.js?v=5"></script>
+    <script src="/config.js?v=6"></script>
     <script src="/names.js?v=1"></script>
-    <script src="/ebird.js?v=1" defer></script>
+    <script src="/ebird.js?v=2" defer></script>
   </body>
 </html>

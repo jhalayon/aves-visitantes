@@ -82,7 +82,7 @@ El enlace `Historial de detecciones` abre una subpágina con el resumen de espec
 
 ## Preparar un registro para eBird
 
-El enlace `Preparar CSV para eBird` consulta las detecciones de BirdNET-Go, aplica filtros de fecha, horario, confianza y cantidad mínima, y muestra una lista para revisión humana. Después genera un CSV compatible con la herramienta oficial de importación de eBird; no publica observaciones automáticamente ni envía credenciales a eBird.
+El enlace `Preparar CSV para eBird` consulta las detecciones de BirdNET-Go, aplica filtros de fechas, horario, confianza y cantidad mínima, y muestra una lista para revisión humana. Después genera un único CSV compatible con la herramienta oficial de importación de eBird, incluso cuando incluye varios días; no publica observaciones automáticamente ni envía credenciales a eBird.
 
 El flujo es:
 
@@ -90,7 +90,7 @@ El flujo es:
 BirdNET-Go → selección y revisión → Descargar CSV → eBird / Enviar / Importar datos
 ```
 
-La exportación usa `X` para indicar presencia, porque el análisis acústico no permite inferir de forma confiable la cantidad de individuos. La ubicación, provincia, protocolo y duración se completan en la página y se guardan únicamente en el navegador. Ver los detalles en [docs/ebird-export.md](docs/ebird-export.md).
+La exportación usa `X` para indicar presencia, porque el análisis acústico no permite inferir de forma confiable la cantidad de individuos. Cada día se representa como un checklist independiente dentro del archivo. La ubicación, provincia, protocolo y duración se completan en la página y se guardan únicamente en el navegador. Ver los detalles en [docs/ebird-export.md](docs/ebird-export.md).
 
 Si BirdNET-Go está en otra dirección o puerto, editar `.env`. El proxy solo expone la API necesaria bajo `/birdnet/`; no contiene credenciales.
 
@@ -121,6 +121,8 @@ Este repositorio está preparado para ser público:
 - Antes de cada publicación conviene comprobar `git status` y revisar los archivos nuevos.
 
 Nunca usar los archivos de ejemplo para almacenar credenciales reales en un commit.
+
+El exportador eBird está protegido por autenticación HTTP de Nginx. El archivo `config/ebird.htpasswd` es local al servidor y está excluido del repositorio; no se debe reemplazar por una clave escrita en `app/config.js` o en JavaScript.
 
 ## Fuentes y contenido de terceros
 
