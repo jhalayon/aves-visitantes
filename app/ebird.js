@@ -288,12 +288,12 @@
       link.href = url;
       const values = readValues();
       const suffix = values.dateFrom === values.dateTo ? values.dateFrom : values.dateFrom + '-a-' + values.dateTo;
-      link.download = 'ebird-' + (suffix || 'observaciones') + '.csv';
+      link.download = 'ebird-extendido-' + (suffix || 'observaciones') + '.csv';
       document.body.appendChild(link);
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
-      exportStatus.textContent = 'CSV descargado. Revisalo antes de importarlo en eBird.';
+      exportStatus.textContent = 'CSV Extendido descargado. En eBird elegí el formato Extendido y revisalo antes de importarlo.';
     } catch (error) {
       exportStatus.textContent = error.message;
     }

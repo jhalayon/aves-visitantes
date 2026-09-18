@@ -14,6 +14,8 @@ La API pública de eBird está orientada a consultas y descargas de datos. No se
 
 El Record Format permite subir varios checklists en un único CSV de hasta 1 MB. Cada observación debe pertenecer a una sola fecha, ubicación y protocolo. La interfaz permite seleccionar una fecha desde y una fecha hasta; aplica el horario elegido a cada día y genera un checklist por día con detecciones que hayan pasado los filtros.
 
+En la interfaz en español de eBird, este archivo debe cargarse seleccionando **Extendido**. Esa opción corresponde al Record Format, donde cada fila es una observación. **Rejilla** corresponde al Checklist Format y espera una estructura distinta, con las columnas A y B vacías y los checklists organizados por columnas.
+
 La hora de inicio de cada checklist es la primera detección aceptada de ese día. Las filas de especies del mismo día comparten ubicación, fecha, protocolo, hora de inicio y duración para que eBird las agrupe como una misma lista. Si se necesitan ubicaciones, protocolos o esfuerzos diferentes, conviene generar archivos separados.
 
 ## Qué exporta
