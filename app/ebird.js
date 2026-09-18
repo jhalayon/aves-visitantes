@@ -13,7 +13,21 @@
   const loadStatus = document.getElementById('load-status');
   const exportStatus = document.getElementById('export-status');
   const downloadButton = document.getElementById('download-csv');
+  let ebirdNames = Object.create(null);
   let candidateGroups = [];
+
+  const ebirdNamesReady = loadEbirdNames();
+
+  async function loadEbirdNames() {
+    try {
+      const response = await fetch('/config/ebird-names.json', { cache: 'no-store' });
+      if (!response.ok) return;
+      const payload = await response.json();
+      if (payload && payload.names && typeof payload.names === 'object') ebirdNames = payload.names;
+    } catch (_) {
+      // El exportador conserva un fallback a los nombres entregados por BirdNET-Go.
+    }
+  }
 
   function byId(id) {
     return document.getElementById(id);
@@ -66,6 +80,10 @@
       return window.AVIAN_NAMES.resolve(record);
     }
     return record.commonName || record.scientificName || 'Especie sin nombre';
+  }
+
+  function ebirdCommonName(record, scientificName) {
+    return String(ebirdNames[scientificName] || record.commonName || scientificName || '').trim();
   }
 
   function confidenceOf(record) {
@@ -178,7 +196,7 @@
       if (!groups.has(key)) groups.set(key, {
         scientificName,
         commonName: displayCommonName(record),
-        ebirdCommonName: String(record.commonName || '').trim() || scientificName,
+        ebirdCommonName: ebirdCommonName(record, scientificName),
         observationDate,
         records: [],
         count: 0,
@@ -312,6 +330,7 @@
     loadStatus.textContent = 'Consultando BirdNET-Go…';
     downloadButton.disabled = true;
     try {
+      await ebirdNamesReady;
       const records = await fetchAllDetections();
       const groups = groupDetections(records, values);
       renderGroups(groups);

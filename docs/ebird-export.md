@@ -21,14 +21,14 @@ La hora de inicio de cada checklist es la primera detección aceptada de ese dí
 ## Qué exporta
 
 - Una fila por especie seleccionada.
-- Nombre común estándar recibido de BirdNET-Go, junto con el género y la especie científicos.
+- Nombre común oficial de eBird para Argentina, junto con el género y la especie científicos.
 - Género y especie científicos separados.
 - Presencia `X`, porque una detección acústica no estima la cantidad de individuos.
 - Fecha, hora de inicio diaria, ubicación, protocolo y duración indicados en el formulario.
 - Comentarios con el nombre local argentino, cantidad de detecciones, confianza máxima y rango horario observado.
 - El campo de todas las observaciones reportadas usa `S`/`N`, según la interfaz en español de eBird.
 
-El exportador conserva el nombre común estándar de BirdNET-Go porque coincide mejor con el catálogo taxonómico de eBird, y también envía `Genus` + `Species` como referencia científica. El resolver de nombres argentinos se aplica a la interfaz y el nombre local se conserva en los comentarios, pero no reemplaza el campo taxonómico de eBird.
+El exportador consulta el diccionario oficial de nombres regionales de eBird (`Spanish, Argentina`) mediante el nombre científico. Así evita enviar variantes de BirdNET-Go que eBird puede mostrar como especies desconocidas. La interfaz conserva sus nombres argentinos/locales y los comentarios también los incluyen, pero el campo taxonómico usa el nombre de eBird.
 
 La casilla “todas las observaciones reportadas” queda desactivada por defecto: una cámara con micrófono no permite afirmar por sí sola que no hubo otras especies. La persona que importa el archivo debe revisar las especies, ubicación, protocolo y campos taxonómicos antes de enviarlo.
 
