@@ -38,11 +38,19 @@ Cámara IP / portero IP / micrófono de red
 - `app/`: interfaz web estática, collage, historial, exportador revisado a eBird y assets visuales.
 - `config/`: ejemplos de configuración para dispositivos y BirdNET-Go.
 - `scripts/`: tareas operativas, incluyendo la sincronización de nombres argentinos.
+- `analytics/`: servicio mínimo de visitantes únicos y resumen de países, sin almacenar IPs.
 - `docs/`: decisiones de diseño y fuentes de datos.
 - `docker-compose.yml`: servidor Nginx y proxy hacia la API de BirdNET-Go.
 - `nginx.conf.template`: configuración del proxy bajo `/birdnet/`.
 
 La aplicación actual está enfocada en una fuente, pero el formato de configuración ya contempla múltiples dispositivos mediante identificadores como `CAM142`, `POR001` y `MIC001`, además de tipo, IP, protocolo, ubicación, provincia y país.
+
+## Visitantes de la pantalla pública
+
+La pantalla principal incluye un indicador acumulado de visitantes únicos y una tabla por país. El contador usa un
+identificador aleatorio del navegador, anonimizado mediante hash en el servidor; no guarda direcciones IP. El país es
+una estimación aproximada realizada por el servicio de geolocalización configurado en el servicio `avian-analytics`.
+El detalle técnico y las limitaciones están en [docs/analytics.md](docs/analytics.md).
 
 ## Requisitos
 
@@ -73,6 +81,7 @@ El path habitual para algunas cámaras es `/onvif1`, pero debe verificarse para 
 La aplicación espera que BirdNET-Go esté disponible en el host del servidor, por defecto en el puerto `8090`:
 
 ```bash
+docker network create avian-net 2>/dev/null || true
 docker compose up -d
 ```
 

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#173b3f" />
     <link rel="icon" href="/assets/bird-placeholder.svg?v=1" type="image/svg+xml" />
     <title>Visitantes del campo</title>
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
   <body>
     <main class="page-shell">
@@ -31,6 +31,27 @@
           <p>Esta pantalla procesa en tiempo real los sonidos captados por dispositivos de seguridad y los convierte en identificaciones de aves y fauna del entorno.</p>
           <a class="brand-widget-link" href="https://jalayon.me" target="_blank" rel="noopener noreferrer">jalayon.me ↗</a>
         </div>
+      </aside>
+
+      <aside class="visitor-stats" aria-labelledby="visitor-stats-title">
+        <div class="visitor-stats-heading">
+          <div>
+            <p class="section-kicker">VISITAS PÚBLICAS</p>
+            <h2 id="visitor-total">—</h2>
+          </div>
+          <span id="visitor-stats-title">únicos</span>
+        </div>
+        <div class="visitor-table-shell">
+          <table class="visitor-table">
+            <thead>
+              <tr><th>País</th><th>Visitantes únicos</th></tr>
+            </thead>
+            <tbody id="visitor-countries">
+              <tr><td colspan="2">Cargando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="visitor-stats-status" id="visitor-stats-status">Cargando estadísticas…</p>
       </aside>
 
       <nav class="page-nav" aria-label="Navegación del proyecto">
@@ -70,6 +91,7 @@
 
     <script src="/config.js?v=5"></script>
     <script src="/names.js?v=1"></script>
+    <script src="/analytics.js?v=1" defer></script>
     <script src="/app.js?v=6" defer></script>
   </body>
 </html>

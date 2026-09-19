@@ -16,6 +16,27 @@ services:
       - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
     secrets:
       - ebird_htpasswd
+    networks:
+      - avian-net
+
+  avian-analytics:
+    image: node:22-alpine
+    container_name: avian-analytics
+    restart: unless-stopped
+    command: ["node", "/srv/server.js"]
+    environment:
+      ANALYTICS_PORT: 3000
+      ANALYTICS_DATA_FILE: /data/analytics.json
+    volumes:
+      - ./analytics:/srv:ro
+      - ./runtime:/data
+    networks:
+      - avian-net
+
+networks:
+  avian-net:
+    name: avian-net
+    external: true
 
 secrets:
   ebird_htpasswd:
