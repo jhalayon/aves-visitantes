@@ -6,28 +6,6 @@
   const settingsKey = 'avian-ebird-settings';
   const maxDetections = 20000;
   const nonBirdPattern = /dog|canis|horse|equus|sheep|ovis|cattle|cow|bos|goat|capra/i;
-  const ebirdHeaders = [
-    'Common Name',
-    'Genus',
-    'Species',
-    'Number',
-    'Species Comments',
-    'Location Name',
-    'Latitude',
-    'Longitude',
-    'Date',
-    'Start Time',
-    'State/Province',
-    'Country Code',
-    'Protocol',
-    'Number of Observers',
-    'Duration',
-    'All observations reported?',
-    'Effort Distance Miles',
-    'Effort area acres',
-    'Submission Comments'
-  ];
-
   const form = document.getElementById('ebird-form');
   const reviewBody = document.getElementById('review-body');
   const reviewSummary = document.getElementById('review-summary');
@@ -133,7 +111,7 @@
       longitude: String(data.get('longitude') || '').trim(),
       stateProvince: String(data.get('stateProvince') || '').trim().toUpperCase(),
       countryCode: String(data.get('countryCode') || '').trim().toUpperCase(),
-      protocol: String(data.get('protocol') || 'casual').toLowerCase(),
+      protocol: String(data.get('protocol') || 'incidental').toLowerCase(),
       duration: Math.max(1, Number(data.get('duration') || 30)),
       minConfidence: Math.max(0, Number(data.get('minConfidence') || 0)),
       minDetections: Math.max(1, Number(data.get('minDetections') || 1)),
@@ -285,6 +263,14 @@
 
   function buildCsv() {
     const values = readValues();
+    const latitude = Number(values.latitude);
+    const longitude = Number(values.longitude);
+    if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) {
+      throw new Error('Ingresá una latitud válida entre -90 y 90.');
+    }
+    if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
+      throw new Error('Ingresá una longitud válida entre -180 y 180.');
+    }
     const selected = Array.from(document.querySelectorAll('.species-toggle:checked'))
       .map(function (checkbox) { return candidateGroups[Number(checkbox.dataset.index)]; })
       .filter(Boolean);
@@ -301,8 +287,8 @@
         'X',
         comment,
         values.locationName,
-        values.latitude,
-        values.longitude,
+        latitude,
+        longitude,
         formatEbirdDate(group.observationDate),
         formatClock(group.checklistStartTimestamp),
         values.stateProvince,
@@ -316,7 +302,7 @@
         submissionComment
       ].map(csvCell).join(',');
     });
-    return ebirdHeaders.map(csvCell).join(',') + '\r\n' + rows.join('\r\n') + '\r\n';
+    return rows.join('\r\n') + '\r\n';
   }
 
   function downloadCsv() {

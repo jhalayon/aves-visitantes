@@ -20,7 +20,7 @@ La hora de inicio de cada checklist es la primera detección aceptada de ese dí
 
 ## Qué exporta
 
-- La fila de encabezados oficial del Record Format: `Common Name`, `Genus`, `Species`, `Number`, `Species Comments`, `Location Name`, `Latitude`, `Longitude`, `Date`, `Start Time`, `State/Province`, `Country Code`, `Protocol`, `Number of Observers`, `Duration`, `All observations reported?`, `Effort Distance Miles`, `Effort area acres` y `Submission Comments`.
+- Las 19 columnas del Record Format en el orden documentado, pero sin fila de encabezados: el importador de eBird interpreta cada fila como una observación.
 - Una fila por especie seleccionada.
 - Nombre común oficial de eBird para Argentina, junto con el género y la especie científicos.
 - Género y especie científicos separados.
@@ -28,7 +28,8 @@ La hora de inicio de cada checklist es la primera detección aceptada de ese dí
 - Fecha, hora de inicio diaria, ubicación, protocolo y duración indicados en el formulario.
 - Comentarios con el nombre local argentino, cantidad de detecciones, confianza máxima y rango horario observado.
 - El campo de todas las observaciones reportadas usa `Y`/`N`, según el formato documentado por eBird.
-- Los protocolos exportados son `casual`, `stationary`, `traveling` o `area`, que son los valores admitidos por el formato.
+- Los protocolos exportados son `incidental`, `historical`, `stationary`, `traveling`, `area` o `random`, que son los valores admitidos por el importador.
+- La latitud y la longitud son obligatorias y deben expresarse en grados decimales.
 
 El exportador consulta el diccionario oficial de nombres regionales de eBird (`Spanish, Argentina`) mediante el nombre científico. Así evita enviar variantes de BirdNET-Go que eBird puede mostrar como especies desconocidas. La interfaz conserva sus nombres argentinos/locales y los comentarios también los incluyen, pero el campo taxonómico usa el nombre de eBird.
 
