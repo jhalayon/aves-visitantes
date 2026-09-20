@@ -12,6 +12,7 @@
   const loadStatus = document.getElementById('load-status');
   const exportStatus = document.getElementById('export-status');
   const downloadButton = document.getElementById('download-csv');
+  const lifeListButton = document.getElementById('download-life-list');
   let ebirdNames = Object.create(null);
   let candidateGroups = [];
 
@@ -225,6 +226,7 @@
       reviewBody.innerHTML = '<tr><td colspan="6" class="table-empty">No hay candidatas con estos filtros.</td></tr>';
       reviewSummary.textContent = '0 especies candidatas';
       downloadButton.disabled = true;
+      lifeListButton.disabled = true;
       return;
     }
     reviewBody.innerHTML = groups.map(function (group, index) {
@@ -240,6 +242,7 @@
     const checklistCount = new Set(groups.map(function (group) { return group.observationDate; })).size;
     reviewSummary.textContent = groups.length + (groups.length === 1 ? ' observación' : ' observaciones') + ' en ' + checklistCount + (checklistCount === 1 ? ' checklist' : ' checklists');
     downloadButton.disabled = false;
+    lifeListButton.disabled = false;
   }
 
   function csvSafe(value) {
@@ -309,21 +312,64 @@
     return rows.join('\r\n') + '\r\n';
   }
 
+  function buildLifeListCsv() {
+    const values = readValues();
+    const selected = Array.from(document.querySelectorAll('.species-toggle:checked'))
+      .map(function (checkbox) { return candidateGroups[Number(checkbox.dataset.index)]; })
+      .filter(Boolean);
+    if (!selected.length) throw new Error('Seleccioná al menos una especie.');
+    const headers = ['Row #', 'Taxon Order', 'Category', 'Common Name', 'Scientific Name', 'Count', 'Location', 'S/P', 'Date', 'LocID', 'SubID', 'Exotic', 'Countable'];
+    const rows = selected.map(function (group, index) {
+      return [
+        index + 1,
+        '',
+        'species',
+        group.ebirdCommonName,
+        group.scientificName,
+        'X',
+        values.locationName,
+        values.stateProvince,
+        formatEbirdDate(group.observationDate),
+        '',
+        '',
+        '',
+        'Y'
+      ].map(csvCell).join(',');
+    });
+    return headers.map(csvCell).join(',') + '\r\n' + rows.join('\r\n') + '\r\n';
+  }
+
+  function downloadText(content, filename) {
+    const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
   function downloadCsv() {
     try {
       const csv = buildCsv();
-      const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
       const values = readValues();
       const suffix = values.dateFrom === values.dateTo ? values.dateFrom : values.dateFrom + '-a-' + values.dateTo;
-      link.download = 'ebird-extendido-' + (suffix || 'observaciones') + '.csv';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
+      downloadText(csv, 'ebird-extendido-' + (suffix || 'observaciones') + '.csv');
       exportStatus.textContent = 'CSV Extendido descargado. En eBird elegí el formato Extendido y revisalo antes de importarlo.';
+    } catch (error) {
+      exportStatus.textContent = error.message;
+    }
+  }
+
+  function downloadLifeList() {
+    try {
+      const csv = buildLifeListCsv();
+      const values = readValues();
+      const suffix = values.dateFrom === values.dateTo ? values.dateFrom : values.dateFrom + '-a-' + values.dateTo;
+      downloadText(csv, 'ebird-lista-mundial-' + (suffix || 'observaciones') + '.csv');
+      exportStatus.textContent = 'CSV tipo lista mundial descargado.';
     } catch (error) {
       exportStatus.textContent = error.message;
     }
@@ -357,5 +403,6 @@
   });
 
   downloadButton.addEventListener('click', downloadCsv);
+  lifeListButton.addEventListener('click', downloadLifeList);
   restoreValues();
 }());

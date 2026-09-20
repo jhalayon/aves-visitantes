@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#173b3f" />
     <link rel="icon" href="/assets/bird-placeholder.svg?v=1" type="image/svg+xml" />
     <title>Preparar observaciones para eBird</title>
-    <link rel="stylesheet" href="/styles.css?v=5" />
+    <link rel="stylesheet" href="/styles.css?v=6" />
   </head>
   <body>
     <main class="page-shell history-page ebird-page">
@@ -139,12 +139,16 @@
         </div>
         <div class="ebird-actions export-actions">
           <button id="download-csv" type="button" class="primary-button" disabled>Descargar CSV eBird (Extendido)</button>
+          <button id="download-life-list" type="button" class="secondary-button" disabled>Descargar CSV tipo lista mundial</button>
           <span id="export-status" class="inline-status" aria-live="polite">Revisá y seleccioná las especies que quieras exportar.</span>
         </div>
         <p class="export-note">
           El archivo se descarga en tu navegador. Luego, en eBird, elegí <strong>Enviar → Importar datos → Formato: Extendido</strong>.
           No selecciones <strong>Rejilla</strong>: esa opción espera otra estructura de archivo.
           El CSV no incluye una fila de encabezados: el importador de eBird interpreta cada fila como una observación. Usa el nombre común de eBird para Argentina junto con <strong>Genus</strong> y <strong>Species</strong> en columnas separadas. Las detecciones acústicas se exportan como presencia (X), no como cantidad de individuos.
+        </p>
+        <p class="export-note">
+          El botón de lista mundial genera las mismas 13 columnas del archivo descargado desde eBird. Es útil como exportación de especies, pero no reemplaza el formato de importación de checklists.
         </p>
       </section>
 
@@ -157,6 +161,6 @@
 
     <script src="/config.js?v=6"></script>
     <script src="/names.js?v=1"></script>
-    <script src="/ebird.js?v=8" defer></script>
+    <script src="/ebird.js?v=9" defer></script>
   </body>
 </html>

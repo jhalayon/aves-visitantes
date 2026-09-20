@@ -35,6 +35,10 @@ El exportador consulta el diccionario oficial de nombres regionales de eBird (`S
 
 La casilla “todas las observaciones reportadas” queda desactivada por defecto: una cámara con micrófono no permite afirmar por sí sola que no hubo otras especies. La persona que importa el archivo debe revisar las especies, ubicación, protocolo y campos taxonómicos antes de enviarlo.
 
+## Exportación tipo lista mundial
+
+La página también ofrece un botón secundario que genera las 13 columnas del archivo `ebird_world_life_list.csv`: `Row #`, `Taxon Order`, `Category`, `Common Name`, `Scientific Name`, `Count`, `Location`, `S/P`, `Date`, `LocID`, `SubID`, `Exotic` y `Countable`. Esta salida reproduce el formato de una lista mundial descargada desde eBird; no es un formato alternativo de importación de checklists. Los campos que Avian Visitors no puede conocer, como `Taxon Order`, `LocID`, `SubID` y `Exotic`, se dejan vacíos.
+
 ## Protección del exportador
 
 La página `/ebird.html`, el JavaScript del exportador y el endpoint `/ebird-api/` usan autenticación HTTP Basic de Nginx. El archivo `config/ebird.htpasswd` debe existir solo en el servidor y queda excluido por `.gitignore`. Esto protege la interfaz y la consulta específica del exportador sin quitar el acceso público al collage ni a su endpoint `/birdnet/`, que la pantalla principal ya necesita.
