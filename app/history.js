@@ -30,11 +30,18 @@ function formatTimestamp(value) {
   }).format(date);
 }
 
+function formatConfidence(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '—';
+  const percentage = number <= 1 ? number * 100 : number;
+  return `${Math.round(percentage)}%`;
+}
+
 function renderHistory(species) {
   const body = document.getElementById('history-body');
   body.innerHTML = '';
   if (!species.length) {
-    body.innerHTML = '<tr><td colspan="5" class="table-empty">Todavía no hay detecciones históricas.</td></tr>';
+    body.innerHTML = '<tr><td colspan="6" class="table-empty">Todavía no hay detecciones históricas.</td></tr>';
     return;
   }
 
@@ -50,7 +57,8 @@ function renderHistory(species) {
       <td class="scientific-cell">${record.scientific_name || '—'}</td>
       <td class="common-cell">${name}</td>
       <td>${formatTimestamp(record.last_heard)}</td>
-      <td class="count-cell">${record.count ?? 0}</td>`;
+      <td class="count-cell">${record.count ?? 0}</td>
+      <td class="confidence-cell">${formatConfidence(record.max_confidence)}</td>`;
     const image = row.querySelector('img');
     image.addEventListener('error', () => {
       image.style.display = 'none';
@@ -73,7 +81,7 @@ async function loadHistory() {
     status.textContent = `${species.length} especie${species.length === 1 ? '' : 's'} registrada${species.length === 1 ? '' : 's'}`;
   } catch (error) {
     console.error(error);
-    document.getElementById('history-body').innerHTML = '<tr><td colspan="5" class="table-empty">No se pudo cargar el historial.</td></tr>';
+    document.getElementById('history-body').innerHTML = '<tr><td colspan="6" class="table-empty">No se pudo cargar el historial.</td></tr>';
     status.textContent = 'Sin conexión al detector';
   }
 }

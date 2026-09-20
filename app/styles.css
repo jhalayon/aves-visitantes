@@ -131,6 +131,7 @@ tbody tr:hover { background: rgba(244, 240, 231, .66); }
 .scientific-cell { font-style: italic; color: var(--ink); }
 .common-cell { font: 650 19px/1.1 Fraunces, Georgia, serif; color: var(--ink); }
 .count-cell { font-weight: 500; color: var(--ink); }
+.confidence-cell { font-weight: 600; color: var(--accent); white-space: nowrap; }
 .table-empty { text-align: center; padding: 48px 18px; color: var(--ink-soft); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 

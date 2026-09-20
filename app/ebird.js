@@ -6,6 +6,27 @@
   const settingsKey = 'avian-ebird-settings';
   const maxDetections = 20000;
   const nonBirdPattern = /dog|canis|horse|equus|sheep|ovis|cattle|cow|bos|goat|capra/i;
+  const ebirdHeaders = [
+    'Common Name',
+    'Genus',
+    'Species',
+    'Number',
+    'Species Comments',
+    'Location Name',
+    'Latitude',
+    'Longitude',
+    'Date',
+    'Start Time',
+    'State/Province',
+    'Country Code',
+    'Protocol',
+    'Number of Observers',
+    'Duration',
+    'All observations reported?',
+    'Effort Distance Miles',
+    'Effort area acres',
+    'Submission Comments'
+  ];
 
   const form = document.getElementById('ebird-form');
   const reviewBody = document.getElementById('review-body');
@@ -112,7 +133,7 @@
       longitude: String(data.get('longitude') || '').trim(),
       stateProvince: String(data.get('stateProvince') || '').trim().toUpperCase(),
       countryCode: String(data.get('countryCode') || '').trim().toUpperCase(),
-      protocol: String(data.get('protocol') || 'Incidental'),
+      protocol: String(data.get('protocol') || 'casual').toLowerCase(),
       duration: Math.max(1, Number(data.get('duration') || 30)),
       minConfidence: Math.max(0, Number(data.get('minConfidence') || 0)),
       minDetections: Math.max(1, Number(data.get('minDetections') || 1)),
@@ -289,13 +310,13 @@
         values.protocol,
         '1',
         values.duration,
-        values.allObservations ? 'S' : 'N',
+        values.allObservations ? 'Y' : 'N',
         '',
         '',
         submissionComment
       ].map(csvCell).join(',');
     });
-    return rows.join('\r\n') + '\r\n';
+    return ebirdHeaders.map(csvCell).join(',') + '\r\n' + rows.join('\r\n') + '\r\n';
   }
 
   function downloadCsv() {

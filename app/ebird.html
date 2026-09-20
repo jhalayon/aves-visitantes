@@ -74,8 +74,10 @@
           <label class="form-field">
             <span>Protocolo</span>
             <select id="protocol" name="protocol">
-              <option value="Incidental">Incidental</option>
-              <option value="Stationary">Stationary</option>
+              <option value="casual">Casual</option>
+              <option value="stationary">Estacionario</option>
+              <option value="traveling">En recorrido</option>
+              <option value="area">Búsqueda de área</option>
             </select>
           </label>
           <label class="form-field">
@@ -140,7 +142,7 @@
         <p class="export-note">
           El archivo se descarga en tu navegador. Luego, en eBird, elegí <strong>Enviar → Importar datos → Formato: Extendido</strong>.
           No selecciones <strong>Rejilla</strong>: esa opción espera otra estructura de archivo.
-          Para facilitar la coincidencia taxonómica, el CSV usa los nombres oficiales de eBird para Argentina junto con el nombre científico; el nombre argentino local de la interfaz queda en los comentarios. Las detecciones acústicas se exportan como presencia (X), no como cantidad de individuos.
+          El CSV incluye la fila de encabezados oficial y usa el nombre común de eBird para Argentina junto con <strong>Genus</strong> y <strong>Species</strong> en columnas separadas. Las detecciones acústicas se exportan como presencia (X), no como cantidad de individuos.
         </p>
       </section>
 
