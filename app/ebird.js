@@ -243,7 +243,11 @@
   }
 
   function csvSafe(value) {
-    return String(value == null ? '' : value).replace(/["\r\n]/g, ' ').trim();
+    return String(value == null ? '' : value)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/["\r\n]/g, ' ')
+      .trim();
   }
 
   function csvCell(value) {
@@ -275,8 +279,8 @@
       .map(function (checkbox) { return candidateGroups[Number(checkbox.dataset.index)]; })
       .filter(Boolean);
     if (!selected.length) throw new Error('Seleccioná al menos una especie.');
-    const commonComment = 'Nombre local: {commonName}; detecciones acústicas: {count}; confianza máxima: {confidence}%; primera: {first}; última: {last}; BirdNET-Go';
-    const submissionComment = 'Detecciones acústicas automáticas revisadas antes de la importación. BirdNET-Go.';
+    const commonComment = 'Local name: {commonName}; acoustic detections: {count}; maximum confidence: {confidence}%; first: {first}; last: {last}; BirdNET-Go';
+    const submissionComment = 'Automatic acoustic detections reviewed before import. BirdNET-Go.';
     const rows = selected.map(function (group) {
       const scientific = splitScientificName(group.scientificName);
       const comment = commonComment.replace('{commonName}', group.commonName).replace('{count}', group.count).replace('{confidence}', Math.round(group.maxConfidence)).replace('{first}', formatClock(group.firstTimestamp)).replace('{last}', formatClock(group.lastTimestamp));

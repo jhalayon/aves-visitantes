@@ -21,12 +21,12 @@ La hora de inicio de cada checklist es la primera detección aceptada de ese dí
 ## Qué exporta
 
 - Las 19 columnas del Record Format en el orden documentado, pero sin fila de encabezados: el importador de eBird interpreta cada fila como una observación.
-- Una fila por especie seleccionada.
+- Una fila por especie seleccionada, sin encabezados. El orden de las columnas coincide con el Excel de referencia de eBird.
 - Nombre común oficial de eBird para Argentina, junto con el género y la especie científicos.
 - Género y especie científicos separados.
 - Presencia `X`, porque una detección acústica no estima la cantidad de individuos.
 - Fecha, hora de inicio diaria, ubicación, protocolo y duración indicados en el formulario.
-- Comentarios con el nombre local argentino, cantidad de detecciones, confianza máxima y rango horario observado.
+- Comentarios en inglés y sin acentos, con el nombre local argentino, cantidad de detecciones, confianza máxima y rango horario observado.
 - El campo de todas las observaciones reportadas usa `Y`/`N`, según el formato documentado por eBird.
 - Los protocolos exportados son `incidental`, `historical`, `stationary`, `traveling`, `area` o `random`, que son los valores admitidos por el importador.
 - La latitud y la longitud son obligatorias y deben expresarse en grados decimales.
