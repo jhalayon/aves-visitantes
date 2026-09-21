@@ -116,6 +116,7 @@ function parsedTime(detection) {
 
 function render(activeKeys = new Set(birds.map((bird) => bird.key.toLowerCase()))) {
   composition.innerHTML = '';
+  composition.dataset.count = String(activeKeys.size);
   birds.forEach((bird) => {
     if (!activeKeys.has(bird.key.toLowerCase())) return;
     const figure = document.createElement('figure');
@@ -123,8 +124,6 @@ function render(activeKeys = new Set(birds.map((bird) => bird.key.toLowerCase())
     figure.style.setProperty('--bird-width', bird.width);
     figure.style.setProperty('--bird-rotation', bird.rotation);
     figure.style.setProperty('--bird-delay', bird.delay);
-    figure.style.left = bird.left;
-    figure.style.top = bird.top;
     figure.innerHTML = `<img src="${bird.image}?v=3" alt="" aria-hidden="true" />`;
     figure.querySelector('img').addEventListener('error', () => figure.remove());
     composition.appendChild(figure);

@@ -107,15 +107,34 @@ body {
   position: absolute;
   inset: 0;
   z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: clamp(.75rem, 2.5vw, 2.8rem);
+  padding: clamp(3.8rem, 8vh, 5.8rem) clamp(1.2rem, 4vw, 4.8rem) clamp(5.2rem, 12vh, 7.2rem);
+}
+
+.art-composition[data-count="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.art-composition[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .art-bird {
-  position: absolute;
+  position: relative;
   display: block;
   width: var(--bird-width);
-  max-width: 58vw;
-  transform: translate(-50%, -50%) rotate(var(--bird-rotation));
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  transform: rotate(var(--bird-rotation));
   transform-origin: center;
+  justify-self: center;
+  align-self: center;
   animation: bird-breathe 12s ease-in-out infinite alternate;
   animation-delay: var(--bird-delay);
   transition: opacity 1.2s ease, transform 1.2s ease;
@@ -125,7 +144,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 86vh;
+  max-height: 38vh;
   object-fit: contain;
   filter: saturate(.94) contrast(.97);
   user-select: none;
@@ -134,7 +153,16 @@ body {
 
 .art-bird.is-entering {
   opacity: 0;
-  transform: translate(-50%, -46%) rotate(var(--bird-rotation)) scale(.96);
+  transform: translateY(-4%) rotate(var(--bird-rotation)) scale(.96);
+}
+
+.art-composition[data-count="1"] .art-bird img {
+  max-height: 70vh;
+}
+
+.art-composition[data-count="2"] .art-bird img,
+.art-composition[data-count="3"] .art-bird img {
+  max-height: 55vh;
 }
 
 .art-bird.is-hidden {
@@ -188,7 +216,15 @@ body {
 }
 
 @media (max-width: 760px) {
-  .art-bird { max-width: 72vw; }
+  .art-composition {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .8rem;
+    padding: 3.2rem 1rem 4.8rem;
+  }
+  .art-composition[data-count="1"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .art-bird { width: min(var(--bird-width), 100%); }
   .art-bird:nth-child(n+4) { display: none; }
   .art-home { top: .7rem; right: .8rem; }
   .art-credit {
