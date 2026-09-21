@@ -2,7 +2,7 @@
 
 Registro de las especies detectadas por BirdNET-Go y del estado de sus ilustraciones para la pantalla `art.html`.
 
-Última actualización: 20 de septiembre de 2026. La lista se construyó a partir del historial de detecciones disponible en CAM142.
+Última actualización: 21 de septiembre de 2026. La lista se construyó a partir del historial de detecciones disponible en CAM142.
 
 ## Generadas
 
@@ -46,39 +46,44 @@ Registro de las especies detectadas por BirdNET-Go y del estado de sus ilustraci
 | *Mimus saturninus* | Calandria | 4 | 2026-09-18 19:09 | privado |
 | *Turdus chiguanco* | Zorzal chiguanco | 3 | 2026-09-18 17:16 | privado |
 
+### Batch 5 — nuevas especies
+
+| Especie | Nombre usado | Detecciones | Última detección | Asset |
+| --- | --- | ---: | --- | --- |
+| *Bartramia longicauda* | Batitú | 2 | 2026-09-18 15:12 | privado |
+| *Patagioenas picazuro* | Paloma picazuró | 4 | 2026-09-18 10:26 | privado |
+| *Pitangus sulphuratus* | Bienteveo común | 1 | 2026-09-18 09:59 | privado |
+| *Turdus amaurochalinus* | Zorzal chalchalero | 3 | 2026-09-18 09:48 | privado |
+| *Mimus patagonicus* | Calandria patagónica | 1 | 2026-09-18 09:40 | privado |
+
 ## No generadas todavía
 
-Ordenadas por la última detección conocida. Las primeras cinco forman el próximo batch sugerido.
+Ordenadas por la última detección conocida.
 
 | Prioridad | Especie | Nombre detectado | Detecciones | Última detección |
 | ---: | --- | --- | ---: | --- |
-| 1 | *Bartramia longicauda* | Batitú | 2 | 2026-09-18 15:12 |
-| 2 | *Patagioenas picazuro* | Paloma picazuró | 4 | 2026-09-18 10:26 |
-| 3 | *Pitangus sulphuratus* | Bienteveo común | 1 | 2026-09-18 09:59 |
-| 4 | *Turdus amaurochalinus* | Zorzal chalchalero | 3 | 2026-09-18 09:48 |
-| 5 | *Mimus patagonicus* | Calandria patagónica | 1 | 2026-09-18 09:40 |
-| 6 | *Catharus ustulatus* | Zorzalito de Swainson | 1 | 2026-09-18 09:26 |
-| 7 | *Cariama cristata* | Chuña patirroja | 3 | 2026-09-17 08:46 |
-| 8 | *Tyto alba* | Lechuza común | 1 | 2026-09-17 03:46 |
-| 9 | *Theristicus melanopis* | Bandurria austral | 1 | 2026-09-16 14:03 |
-| 10 | *Megascops choliba* | Alilicucú común | 8 | 2026-09-16 01:11 |
-| 11 | *Pardirallus sanguinolentus* | Gallineta común | 2 | 2026-09-15 18:52 |
-| 12 | *Himantopus mexicanus* | Cigüeñuela | 1 | 2026-09-15 17:54 |
-| 13 | *Nycticorax nycticorax* | Garza bruja | 1 | 2026-09-15 17:02 |
-| 14 | *Crotophaga ani* | Garrapatero aní | 1 | 2026-09-15 15:34 |
-| 15 | *Colaptes melanochloros* | Carpintero real | 2 | 2026-09-15 13:54 |
-| 16 | *Fulica atra* | Focha común | 2 | 2026-09-15 11:01 |
-| 17 | *Haliaeetus pelagicus* | Pigargo gigante | 1 | 2026-09-15 10:58 |
-| 18 | *Cygnus columbianus* | Cisne chico | 2 | 2026-09-15 10:50 |
-| 19 | *Columbina inca* | Tortolita mexicana | 1 | 2026-09-15 10:48 |
-| 20 | *Aegolius acadicus* | Mochuelo cabezón | 1 | 2026-09-15 10:42 |
-| 21 | *Saxicola caprata* | Tarabilla pía | 2 | 2026-09-15 10:42 |
-| 22 | *Stercorarius longicaudus* | Págalo rabero | 1 | 2026-09-15 10:34 |
-| 23 | *Branta leucopsis* | Barnacla cariblanca | 2 | 2026-09-15 10:33 |
+| 1 | *Catharus ustulatus* | Zorzalito de Swainson | 1 | 2026-09-18 09:26 |
+| 2 | *Cariama cristata* | Chuña patirroja | 3 | 2026-09-17 08:46 |
+| 3 | *Tyto alba* | Lechuza común | 1 | 2026-09-17 03:46 |
+| 4 | *Theristicus melanopis* | Bandurria austral | 1 | 2026-09-16 14:03 |
+| 5 | *Megascops choliba* | Alilicucú común | 8 | 2026-09-16 01:11 |
+| 6 | *Pardirallus sanguinolentus* | Gallineta común | 2 | 2026-09-15 18:52 |
+| 7 | *Himantopus mexicanus* | Cigüeñuela | 1 | 2026-09-15 17:54 |
+| 8 | *Nycticorax nycticorax* | Garza bruja | 1 | 2026-09-15 17:02 |
+| 9 | *Crotophaga ani* | Garrapatero aní | 1 | 2026-09-15 15:34 |
+| 10 | *Colaptes melanochloros* | Carpintero real | 2 | 2026-09-15 13:54 |
+| 11 | *Fulica atra* | Focha común | 2 | 2026-09-15 11:01 |
+| 12 | *Haliaeetus pelagicus* | Pigargo gigante | 1 | 2026-09-15 10:58 |
+| 13 | *Cygnus columbianus* | Cisne chico | 2 | 2026-09-15 10:50 |
+| 14 | *Columbina inca* | Tortolita mexicana | 1 | 2026-09-15 10:48 |
+| 15 | *Aegolius acadicus* | Mochuelo cabezón | 1 | 2026-09-15 10:42 |
+| 16 | *Saxicola caprata* | Tarabilla pía | 2 | 2026-09-15 10:42 |
+| 17 | *Stercorarius longicaudus* | Págalo rabero | 1 | 2026-09-15 10:34 |
+| 18 | *Branta leucopsis* | Barnacla cariblanca | 2 | 2026-09-15 10:33 |
 
 ## Notas
 
 - Se excluyen detecciones no aviares, como `Dog`, de este inventario.
 - Los nombres comunes son una normalización de los nombres detectados; el nombre científico es la clave estable para el asset.
 - Las cinco imágenes del Batch 1 son assets públicos incluidos en el repositorio. Las variantes artísticas de los batches siguientes se mantienen fuera del repositorio y solo se instalan en el sistema privado.
-- La próxima tanda sugerida comienza con *Bartramia longicauda*, *Patagioenas picazuro*, *Pitangus sulphuratus*, *Turdus amaurochalinus* y *Mimus patagonicus*.
+- El próximo batch sugerido comienza con las especies restantes de la tabla de pendientes.

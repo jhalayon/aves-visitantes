@@ -104,6 +104,46 @@ const birds = [
     rotation: '-5deg',
     delay: '-1s',
   },
+  {
+    key: 'Bartramia longicauda',
+    image: '/art-pilot/batitu-bartramia-longicauda.png',
+    className: 'bird-batitu',
+    width: '27vw',
+    rotation: '-5deg',
+    delay: '-2s',
+  },
+  {
+    key: 'Patagioenas picazuro',
+    image: '/art-pilot/paloma-picazuro-patagioenas-picazuro.png',
+    className: 'bird-picazuro',
+    width: '27vw',
+    rotation: '4deg',
+    delay: '-7s',
+  },
+  {
+    key: 'Pitangus sulphuratus',
+    image: '/art-pilot/bienteveo-comun-pitangus-sulphuratus.png',
+    className: 'bird-bienteveo',
+    width: '25vw',
+    rotation: '-3deg',
+    delay: '-4s',
+  },
+  {
+    key: 'Turdus amaurochalinus',
+    image: '/art-pilot/zorzal-chalchalero-turdus-amaurochalinus.png',
+    className: 'bird-zorzal-chalchalero',
+    width: '27vw',
+    rotation: '5deg',
+    delay: '-9s',
+  },
+  {
+    key: 'Mimus patagonicus',
+    image: '/art-pilot/calandria-patagonica-mimus-patagonicus.png',
+    className: 'bird-calandria-patagonica',
+    width: '28vw',
+    rotation: '-4deg',
+    delay: '-6s',
+  },
 ];
 
 const composition = document.getElementById('art-composition');
