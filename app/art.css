@@ -165,6 +165,23 @@ body {
   opacity: .72;
 }
 
+.art-credit {
+  position: absolute;
+  right: 1.7rem;
+  bottom: 1rem;
+  z-index: 4;
+  display: flex;
+  max-width: min(68vw, 780px);
+  flex-direction: column;
+  gap: .22rem;
+  color: rgba(23, 59, 63, .58);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: .68rem;
+  line-height: 1.35;
+  letter-spacing: .035em;
+  text-align: right;
+}
+
 @keyframes bird-breathe {
   from { margin-top: -5px; }
   to { margin-top: 5px; }
@@ -174,6 +191,12 @@ body {
   .art-bird { max-width: 72vw; }
   .art-bird:nth-child(n+4) { display: none; }
   .art-home { top: .7rem; right: .8rem; }
+  .art-credit {
+    right: .8rem;
+    bottom: .65rem;
+    max-width: 84vw;
+    font-size: .6rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
