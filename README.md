@@ -43,6 +43,10 @@ Cámara IP / portero IP / micrófono de red
 - `docker-compose.yml`: servidor Nginx y proxy hacia la API de BirdNET-Go.
 - `nginx.conf.template`: configuración del proxy bajo `/birdnet/`.
 
+Las cinco imágenes simples de la primera prueba visual se incluyen como referencia pública en
+`app/assets/art-original/`. Las variantes artísticas posteriores, usadas por la instalación privada,
+se mantienen fuera del repositorio y están excluidas mediante `.gitignore`.
+
 La aplicación actual está enfocada en una fuente, pero el formato de configuración ya contempla múltiples dispositivos mediante identificadores como `CAM142`, `POR001` y `MIC001`, además de tipo, IP, protocolo, ubicación, provincia y país.
 
 ## Visitantes de la pantalla pública

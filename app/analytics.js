@@ -25,18 +25,8 @@
     }
   }
 
-  function countryName(code) {
-    if (code === 'XX') return 'Desconocido';
-    try {
-      return new Intl.DisplayNames(['es-AR', 'es'], { type: 'region' }).of(code) || code;
-    } catch (_) {
-      return code;
-    }
-  }
-
-  function countryFlag(code) {
-    if (!/^[A-Z]{2}$/.test(code)) return '🌐';
-    return [...code].map((letter) => String.fromCodePoint(127397 + letter.charCodeAt(0))).join('');
+  function countryFlagClass(code) {
+    return /^[A-Z]{2}$/.test(code) ? code.toLowerCase() : 'unknown';
   }
 
   function render(data) {
@@ -55,10 +45,13 @@
       const row = document.createElement('tr');
       const nameCell = document.createElement('td');
       const flag = document.createElement('span');
-      flag.className = 'visitor-flag';
-      flag.textContent = countryFlag(entry.code);
+      const codeValue = /^[A-Z]{2}$/.test(entry.code || '') ? entry.code : 'XX';
+      flag.className = `visitor-flag flag-${countryFlagClass(codeValue)}`;
       flag.setAttribute('aria-hidden', 'true');
-      nameCell.append(flag, document.createTextNode(countryName(entry.code)));
+      const code = document.createElement('span');
+      code.className = 'visitor-code';
+      code.textContent = codeValue;
+      nameCell.append(flag, code);
       const countCell = document.createElement('td');
       countCell.className = 'visitor-count';
       countCell.textContent = Number(entry.visitors || 0).toLocaleString('es-AR');

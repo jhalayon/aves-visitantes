@@ -6,6 +6,10 @@ config/devices.yaml
 config/birdnet-go.yaml
 config/ebird.htpasswd
 
+# Private artistic variants used only by the local display
+/art-pilot/
+/app/art-pilot/
+
 # Local credentials and keys
 *.pem
 *.key
