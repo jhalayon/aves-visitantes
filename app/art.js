@@ -1,14 +1,7 @@
 const CONFIG = window.AVIAN_CONFIG || {};
 const API = CONFIG.apiPrefix || '/birdnet';
 const REFRESH_MS = (CONFIG.refreshMinutes || 5) * 60 * 1000;
-const ART_WINDOW_MS = 24 * 60 * 60 * 1000;
-const PREFERRED_BATCH = [
-  'Glaucidium brasilianum',
-  'Turdus rufiventris',
-  'Elaenia albiceps',
-  'Tringa melanoleuca',
-  'Theristicus caudatus',
-];
+const RECENT_WINDOW_MS = (CONFIG.recentWindowMinutes || 30) * 60 * 1000;
 
 const birds = [
   {
@@ -139,19 +132,22 @@ function render(activeKeys = new Set(birds.map((bird) => bird.key.toLowerCase())
   });
 }
 
-function activeSpecies(detections) {
+function selectedDetections(detections) {
+  const sorted = [...detections].sort((a, b) => parsedTime(b) - parsedTime(a));
   const now = Date.now();
-  const recent = detections
-    .filter((detection) => now - parsedTime(detection) <= ART_WINDOW_MS && now - parsedTime(detection) >= -5 * 60 * 1000)
-    .sort((a, b) => parsedTime(b) - parsedTime(a));
-  const detected = new Set(recent.map((detection) => (detection.scientificName || '').toLowerCase()));
-  const preferredDetected = PREFERRED_BATCH.some((key) => detected.has(key.toLowerCase()));
-  if (preferredDetected) return new Set(PREFERRED_BATCH.map((key) => key.toLowerCase()));
-  const selected = new Set(birds.filter((bird) => detected.has(bird.key.toLowerCase())).map((bird) => bird.key.toLowerCase()));
+  const recent = sorted.filter((detection) => {
+    const age = now - parsedTime(detection);
+    return age <= RECENT_WINDOW_MS && age >= -5 * 60 * 1000;
+  });
+  return recent.length ? recent : sorted;
+}
 
-  // La composición inicial conserva las cinco aves si todavía no hay suficientes
-  // ilustraciones coincidentes para formar un conjunto visual equilibrado.
-  return selected.size >= 3 ? selected : new Set(birds.map((bird) => bird.key.toLowerCase()));
+function activeSpecies(detections) {
+  const selected = selectedDetections(detections);
+  const detected = new Set(selected.map((detection) => (detection.scientificName || '').toLowerCase()));
+  return new Set(birds
+    .filter((bird) => detected.has(bird.key.toLowerCase()))
+    .map((bird) => bird.key.toLowerCase()));
 }
 
 async function load() {
