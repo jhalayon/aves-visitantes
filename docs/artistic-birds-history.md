@@ -76,20 +76,22 @@ Registro de las especies detectadas por BirdNET-Go y del estado de sus ilustraci
 | *Crotophaga ani* | Garrapatero aní | 1 | 2026-09-15 15:34 | privado |
 | *Colaptes melanochloros* | Carpintero real | 2 | 2026-09-15 13:54 | privado |
 
+### Batch 8 — cierre del inventario
+
+| Especie | Nombre usado | Detecciones | Última detección | Asset |
+| --- | --- | ---: | --- | --- |
+| *Fulica atra* | Focha común | 2 | 2026-09-15 11:01 | privado |
+| *Haliaeetus pelagicus* | Pigargo gigante | 1 | 2026-09-15 10:58 | privado |
+| *Cygnus columbianus* | Cisne chico | 2 | 2026-09-15 10:50 | privado |
+| *Columbina inca* | Tortolita mexicana | 1 | 2026-09-15 10:48 | privado |
+| *Aegolius acadicus* | Mochuelo cabezón | 1 | 2026-09-15 10:42 | privado |
+| *Saxicola caprata* | Tarabilla pía | 2 | 2026-09-15 10:42 | privado |
+| *Stercorarius longicaudus* | Págalo rabero | 1 | 2026-09-15 10:34 | privado |
+| *Branta leucopsis* | Barnacla cariblanca | 2 | 2026-09-15 10:33 | privado |
+
 ## No generadas todavía
 
-Ordenadas por la última detección conocida.
-
-| Prioridad | Especie | Nombre detectado | Detecciones | Última detección |
-| ---: | --- | --- | ---: | --- |
-| 1 | *Fulica atra* | Focha común | 2 | 2026-09-15 11:01 |
-| 2 | *Haliaeetus pelagicus* | Pigargo gigante | 1 | 2026-09-15 10:58 |
-| 3 | *Cygnus columbianus* | Cisne chico | 2 | 2026-09-15 10:50 |
-| 4 | *Columbina inca* | Tortolita mexicana | 1 | 2026-09-15 10:48 |
-| 5 | *Aegolius acadicus* | Mochuelo cabezón | 1 | 2026-09-15 10:42 |
-| 6 | *Saxicola caprata* | Tarabilla pía | 2 | 2026-09-15 10:42 |
-| 7 | *Stercorarius longicaudus* | Págalo rabero | 1 | 2026-09-15 10:34 |
-| 8 | *Branta leucopsis* | Barnacla cariblanca | 2 | 2026-09-15 10:33 |
+No quedan especies pendientes en el inventario actual de CAM142. El próximo batch se generará cuando aparezca una especie nueva.
 
 ## Notas
 
